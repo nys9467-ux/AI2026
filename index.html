@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 리터러시의 이해 | 나인성</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind CSS 다크모드 클래스 수동 제어 설정
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@100;300;400;500;700;900&display=swap');
+
+        /* 테마별 색상 변수 지정 */
+        :root {
+            --bg-color: #f8fafc;
+            --mesh-color-1: rgba(99, 102, 241, 0.1);
+            --mesh-color-2: rgba(168, 85, 247, 0.1);
+            --mesh-color-3: rgba(236, 72, 153, 0.05);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(0, 0, 0, 0.05);
+            --card-hover-shadow: rgba(99, 102, 241, 0.15);
+            --glow-color: rgba(99, 102, 241, 0.1);
+            --scrollbar-track: #f1f5f9;
+            --scrollbar-thumb: #cbd5e1;
+        }
+
+        .dark {
+            --bg-color: #030712;
+            --mesh-color-1: rgba(99, 102, 241, 0.15);
+            --mesh-color-2: rgba(168, 85, 247, 0.15);
+            --mesh-color-3: rgba(236, 72, 153, 0.05);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --card-hover-shadow: rgba(99, 102, 241, 0.2);
+            --glow-color: rgba(255, 255, 255, 0.08);
+            --scrollbar-track: #030712;
+            --scrollbar-thumb: #374151;
+        }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--bg-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        /* 텍스트 그라데이션 */
+        .gradient-text {
+            background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #f472b6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* 스크롤 페이드인 애니메이션 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 딜레이 유틸리티 */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* 미래지향적 배경 메쉬 그라데이션 */
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 10% 20%, var(--mesh-color-1) 0px, transparent 50%),
+                radial-gradient(at 90% 80%, var(--mesh-color-2) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, var(--mesh-color-3) 0px, transparent 50%);
+            filter: blur(80px);
+            animation: pulse-bg 15s ease-in-out infinite alternate;
+            transition: background-color 0.3s ease;
+        }
+
+        @keyframes pulse-bg {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* 카드 마우스 트래킹 글로우 효과 */
+        .portfolio-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .portfolio-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--glow-color), transparent 40%);
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -10px var(--card-hover-shadow);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .portfolio-card:hover::before {
+            opacity: 1;
+        }
+
+        /* 타이핑 커서 애니메이션 */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* 커스텀 스크롤바 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-indigo-500 selection:text-white text-slate-800 dark:text-f3f4f6 transition-colors duration-300">
+
+    <!-- 백그라운드 효과 -->
+    <div class="bg-mesh"></div>
+
+    <!-- 네비게이션 -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center backdrop-blur-md bg-white/70 dark:bg-gray-950/50 border-b border-slate-200 dark:border-white/5 transition-colors">
+            <div class="font-bold text-xl tracking-wider">
+                <span class="text-slate-900 dark:text-white">AI</span> <span class="text-indigo-600 dark:text-indigo-400">Literacy</span>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-600 dark:text-gray-300">
+                    <a href="#hero" class="hover:text-indigo-600 dark:hover:text-white transition-colors">Home</a>
+                    <a href="#portfolio" class="hover:text-indigo-600 dark:hover:text-white transition-colors">Tasks</a>
+                    <a href="#about" class="hover:text-indigo-600 dark:hover:text-white transition-colors">About</a>
+                </div>
+                <!-- 테마 토글 버튼 -->
+                <button id="theme-toggle" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors" aria-label="테마 변경">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-yellow-300"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. 히어로 섹션 -->
+    <section id="hero" class="min-h-screen flex flex-col justify-center items-center px-6 pt-20 relative text-center">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] z-0 opacity-50 dark:opacity-100"></div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto space-y-8 reveal active">
+            <div class="inline-flex items-center px-4 py-2 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700 dark:border-indigo-500/30 dark:bg-indigo-500/10 dark:text-indigo-300 text-sm font-medium mb-4 shadow-sm dark:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-colors">
+                <i class="fa-solid fa-sparkles mr-2 text-indigo-500 dark:text-indigo-400"></i> PNU Library and Information Science
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white transition-colors">
+                AI 리터러시의 이해
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-slate-700 dark:text-gray-300 font-light mt-6 transition-colors" id="typing-text"></p>
+            
+            <p class="text-base md:text-lg text-slate-600 dark:text-gray-400 max-w-2xl mx-auto mt-6 leading-relaxed reveal delay-200 transition-colors">
+                "생성형 AI와 데이터 분석 도구를 활용하여 현실 세계의 문제를 이해하고, 
+                데이터를 해석하며, 그 결과를 의미 있는 이야기와 콘텐츠로 표현할 수 있는 능력을 기른다. 
+                AI의 기본 작동 방식과 한계를 이해하고 올바르게 활용할 수 있다."
+            </p>
+
+            <div class="pt-10 reveal delay-300">
+                <a href="#portfolio" class="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-indigo-600 border border-transparent rounded-full hover:bg-indigo-700 hover:shadow-[0_0_20px_rgba(79,70,229,0.4)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+                    작업물 보기
+                    <i class="fa-solid fa-arrow-down ml-3 animate-bounce"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. 포트폴리오 갤러리 섹션 -->
+    <section id="portfolio" class="py-24 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white transition-colors">10 Tasks</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full"></div>
+                <p class="mt-6 text-slate-600 dark:text-gray-400 transition-colors">수업을 통해 진행한 10가지 데이터 분석 및 AI 활용 과제</p>
+            </div>
+
+            <!-- 그리드 레이아웃 (PC 3~4개, 태블릿 2개, 모바일 1개) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="portfolio-grid">
+                <!-- JavaScript를 통해 카드가 렌더링 됩니다 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 작성자 소개 및 푸터 -->
+    <section id="about" class="py-20 relative z-10 bg-slate-100/50 dark:bg-gray-900/50 border-t border-slate-200 dark:border-white/5 transition-colors">
+        <div class="max-w-4xl mx-auto px-6 text-center reveal">
+            <div class="w-28 h-28 mx-auto bg-white rounded-full flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/20 overflow-hidden border-4 border-white dark:border-gray-800">
+                <img src="https://www.pusan.ac.kr/_contents/kor/_Img/07Intro/character01.jpg" alt="나인성 프로필 캐릭터" class="w-full h-full object-cover">
+            </div>
+            <h2 class="text-3xl font-bold mb-2 text-slate-900 dark:text-white transition-colors">나인성</h2>
+            <p class="text-indigo-600 dark:text-indigo-400 font-medium mb-6 transition-colors">부산대학교 문헌정보학과</p>
+            
+            <div class="bg-white/80 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-8 backdrop-blur-sm max-w-2xl mx-auto shadow-sm dark:shadow-none transition-colors">
+                <i class="fa-solid fa-quote-left text-3xl text-slate-400 dark:text-gray-600 mb-4 block transition-colors"></i>
+                <p class="text-lg text-slate-700 dark:text-gray-300 leading-relaxed italic transition-colors">
+                    "미래의 사서지망생으로서 이용자에게 알맞는 정보를 제공할 수 있는<br class="hidden md:block"/>
+                    능력자의 소양을 기르고 있습니다. AI와 데이터를 활용해<br class="hidden md:block"/>
+                    정보의 가치를 높이는 일에 관심이 많습니다."
+                </p>
+            </div>
+            
+            <div class="flex justify-center space-x-4 mt-8 text-slate-500 dark:text-gray-400">
+                <a href="#" class="w-10 h-10 rounded-full bg-white dark:bg-white/5 shadow-sm dark:shadow-none flex items-center justify-center hover:bg-slate-50 dark:hover:bg-white/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                    <i class="fa-regular fa-envelope"></i>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-white dark:bg-white/5 shadow-sm dark:shadow-none flex items-center justify-center hover:bg-slate-50 dark:hover:bg-white/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#030712] py-8 text-center relative z-10 transition-colors">
+        <p class="text-slate-500 dark:text-gray-500 text-sm transition-colors">
+            &copy; 2024 Na In-sung. All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        // 1. 과제 데이터 배열 (10개)
+        const tasks = [
+            { id: 1, title: "Task 1", topic: "AI의 이해", desc: "노트북LM(NotebookLM)을 활용하여 AI란 무엇인지 그 정의를 알아보고, AI의 발전 역사와 최신 생성형 AI의 특징에 대해 자료를 수집하고 정리한 결과물입니다." },
+            { id: 2, title: "Task 2", topic: "데이터 크롤링 기초", desc: "Python과 BeautifulSoup을 활용하여 웹상의 데이터를 수집하고 정제하는 과정을 담은 리포트입니다." },
+            { id: 3, title: "Task 3", topic: "데이터 시각화", desc: "수집된 공공 데이터를 바탕으로 Pandas와 Matplotlib를 이용해 의미 있는 차트와 그래프로 시각화했습니다." },
+            { id: 4, title: "Task 4", topic: "자연어 처리(NLP) 체험", desc: "KoNLPy를 활용하여 형태소 분석을 진행하고 텍스트 데이터에서 주요 키워드를 추출하여 워드클라우드를 제작했습니다." },
+            { id: 5, title: "Task 5", topic: "AI 이미지 생성", desc: "Midjourney와 Stable Diffusion을 활용하여 텍스트 프롬프트만으로 복잡한 개념을 시각적 이미지로 구현했습니다." },
+            { id: 6, title: "Task 6", topic: "가짜 뉴스 판별 데이터", desc: "AI가 생성한 텍스트와 인간이 작성한 텍스트를 비교 분석하여 정보의 신뢰성을 검증하는 실습을 진행했습니다." },
+            { id: 7, title: "Task 7", topic: "추천 알고리즘 이해", desc: "도서관 대출 데이터를 가정하여 사용자 맞춤형 도서를 추천하는 협업 필터링의 기본 원리를 분석했습니다." },
+            { id: 8, title: "Task 8", topic: "AI 챗봇 기획", desc: "특정 도서관 이용자를 위한 맞춤형 안내 챗봇의 페르소나를 설정하고 대화 시나리오를 기획했습니다." },
+            { id: 9, title: "Task 9", topic: "데이터 윤리와 저작권", desc: "생성형 AI 활용 시 발생할 수 있는 저작권 문제와 데이터 편향성 등 윤리적 이슈에 대한 에세이입니다." },
+            { id: 10, title: "Task 10", topic: "최종 프로젝트", desc: "이전 과제들을 종합하여 현실 세계의 문제를 정의하고, 데이터 분석과 AI를 결합하여 해결책을 제시한 최종 결과물입니다." }
+        ];
+
+        // 2. 포트폴리오 카드 렌더링
+        const grid = document.getElementById('portfolio-grid');
+        tasks.forEach((task, index) => {
+            // 그라데이션 컬러 다양화
+            const colors = [
+                'from-blue-500 to-cyan-500', 'from-indigo-500 to-purple-500', 
+                'from-pink-500 to-rose-500', 'from-emerald-500 to-teal-500',
+                'from-amber-500 to-orange-500'
+            ];
+            const colorClass = colors[index % colors.length];
+            const delay = (index % 4) * 100;
+
+            const cardHTML = `
+                <div class="portfolio-card rounded-2xl p-1 flex flex-col h-full reveal" style="transition-delay: ${delay}ms;">
+                    <div class="relative z-10 bg-white/60 dark:bg-gray-900 rounded-xl h-full flex flex-col transition-colors backdrop-blur-md">
+                        <!-- 이미지 플레이스홀더 -->
+                        <div class="h-48 rounded-t-xl bg-gradient-to-br ${colorClass} opacity-80 flex flex-col items-center justify-center relative overflow-hidden group-hover:opacity-100 transition-opacity">
+                            <div class="absolute inset-0 bg-black/10 dark:bg-black/20"></div>
+                            <span class="text-white/50 text-6xl font-black absolute -right-4 -bottom-4 opacity-30 group-hover:scale-110 transition-transform duration-500">
+                                ${task.id.toString().padStart(2, '0')}
+                            </span>
+                            <i class="fa-solid fa-database text-4xl text-white mb-2 relative z-10 shadow-sm"></i>
+                            <span class="text-white font-medium text-sm tracking-wider relative z-10">${task.topic}</span>
+                        </div>
+                        
+                        <!-- 텍스트 영역 -->
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="text-xs font-bold text-indigo-600 dark:text-indigo-400 mb-2 uppercase tracking-wider transition-colors">${task.title}</div>
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 leading-snug transition-colors">${task.topic}</h3>
+                                <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed mb-6 transition-colors">
+                                    ${task.desc}
+                                </p>
+                            </div>
+                            
+                            <!-- 자세히 보기 버튼 -->
+                            <a href="./02/index.html" class="group flex items-center text-sm font-semibold text-slate-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors mt-auto w-max">
+                                자세히 보기 
+                                <span class="bg-slate-100 dark:bg-white/10 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-500/20 w-6 h-6 rounded-full flex items-center justify-center ml-2 transition-colors">
+                                    <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-0.5 transition-transform text-slate-500 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.innerHTML += cardHTML;
+        });
+
+        // 3. 타이핑 효과 애니메이션
+        const textToType = "데이터를 해석하고 AI로 표현하는 10가지 이야기";
+        const typingElement = document.getElementById('typing-text');
+        typingElement.classList.add('typing-cursor');
+        let typeIndex = 0;
+
+        function type() {
+            if (typeIndex < textToType.length) {
+                typingElement.innerHTML = textToType.substring(0, typeIndex + 1);
+                typeIndex++;
+                setTimeout(type, 80); // 타이핑 속도
+            } else {
+                // 타이핑 완료 후 깜빡이는 커서 효과 유지
+            }
+        }
+        
+        // 초기 로딩 후 타이핑 시작
+        setTimeout(type, 1000);
+
+        // 4. 스크롤 페이드인 효과 (Intersection Observer)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // 한 번만 실행
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 5. 카드 마우스 트래킹 글로우 효과
+        document.querySelectorAll('.portfolio-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // 6. 네비게이션 바 스크롤 효과
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            nav.classList.add('bg-white/90', 'dark:bg-gray-950/80', 'shadow-sm', 'dark:shadow-lg');
+            nav.classList.remove('bg-white/70', 'dark:bg-gray-950/50');
+        } else {
+            nav.classList.remove('bg-white/90', 'dark:bg-gray-950/80', 'shadow-sm', 'dark:shadow-lg');
+            nav.classList.add('bg-white/70', 'dark:bg-gray-950/50');
+        }
+    });
+
+    // 7. 다크모드 / 라이트모드 토글 로직
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+    
+    // 시스템 환경 또는 이전 설정 확인하여 초기화 (기본값 다크모드)
+    if (localStorage.getItem('theme') === 'light') {
+        html.classList.remove('dark');
+    } else if (localStorage.getItem('theme') === 'dark') {
+        html.classList.add('dark');
+    } else {
+        // 로컬 스토리지가 없을 경우 시스템 환경설정 확인
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+            html.classList.remove('dark');
+        }
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+        html.classList.toggle('dark');
+        if (html.classList.contains('dark')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
+    });
+</script>
+</body>
+</html>
