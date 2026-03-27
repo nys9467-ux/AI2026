@@ -265,8 +265,9 @@
     <script>
         // 1. 과제 데이터 배열 (10개)
         const tasks = [
-            { id: 1, title: "Task 1", topic: "AI의 이해", desc: "노트북LM(NotebookLM)을 활용하여 AI란 무엇인지 그 정의를 알아보고, AI의 발전 역사와 최신 생성형 AI의 특징에 대해 자료를 수집하고 정리한 결과물입니다." },
-            { id: 2, title: "Task 2", topic: "데이터 크롤링 기초", desc: "Python과 BeautifulSoup을 활용하여 웹상의 데이터를 수집하고 정제하는 과정을 담은 리포트입니다." },
+            { id: 1, title: "Task 1", topic: "AI의 이해", desc: "노트북LM(NotebookLM)을 활용하여 AI란 무엇인지 그 정의를 알아보고, AI의 발전 역사와 최신 생성형 AI의 특징에 대해 자료를 수집하고 정리한 결과물입니다.", link: "./02/index.html" },
+            // 과제 2 수정됨: 태그(tag)와 특정 링크(link) 속성 추가
+            { id: 2, title: "Task 2", topic: "데이터 스토리텔링", desc: "공공 데이터를 분석하고 인사이트를 도출하여 시각적으로 설득력있는 리포트를 작성한다.", tag: "Gemini 스토리북 활용", link: "./03/index.html" },
             { id: 3, title: "Task 3", topic: "데이터 시각화", desc: "수집된 공공 데이터를 바탕으로 Pandas와 Matplotlib를 이용해 의미 있는 차트와 그래프로 시각화했습니다." },
             { id: 4, title: "Task 4", topic: "자연어 처리(NLP) 체험", desc: "KoNLPy를 활용하여 형태소 분석을 진행하고 텍스트 데이터에서 주요 키워드를 추출하여 워드클라우드를 제작했습니다." },
             { id: 5, title: "Task 5", topic: "AI 이미지 생성", desc: "Midjourney와 Stable Diffusion을 활용하여 텍스트 프롬프트만으로 복잡한 개념을 시각적 이미지로 구현했습니다." },
@@ -289,8 +290,19 @@
             const colorClass = colors[index % colors.length];
             const delay = (index % 4) * 100;
 
+            // 특정 링크가 있으면 사용하고, 없으면 "#"으로 설정
+            const targetLink = task.link || "#";
+            
+            // 태그가 존재할 경우에만 뱃지 UI 생성
+            const tagBadge = task.tag 
+                ? `<div class="absolute top-4 right-4 bg-indigo-600/90 backdrop-blur-sm text-white text-[11px] font-bold px-3 py-1.5 rounded-full z-30 shadow-lg shadow-indigo-500/30 border border-white/20 tracking-wide">${task.tag}</div>` 
+                : '';
+
             const cardHTML = `
-                <div class="portfolio-card rounded-2xl p-1 flex flex-col h-full reveal" style="transition-delay: ${delay}ms;">
+                <div class="portfolio-card rounded-2xl p-1 flex flex-col h-full reveal relative" style="transition-delay: ${delay}ms;">
+                    <!-- 카드 우측 상단 뱃지 렌더링 -->
+                    ${tagBadge}
+                    
                     <div class="relative z-10 bg-white/60 dark:bg-gray-900 rounded-xl h-full flex flex-col transition-colors backdrop-blur-md">
                         <!-- 이미지 플레이스홀더 -->
                         <div class="h-48 rounded-t-xl bg-gradient-to-br ${colorClass} opacity-80 flex flex-col items-center justify-center relative overflow-hidden group-hover:opacity-100 transition-opacity">
@@ -312,8 +324,8 @@
                                 </p>
                             </div>
                             
-                            <!-- 자세히 보기 버튼 -->
-                            <a href="./02/index.html" class="group flex items-center text-sm font-semibold text-slate-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors mt-auto w-max">
+                            <!-- 자세히 보기 버튼 (동적 링크 적용) -->
+                            <a href="${targetLink}" class="group flex items-center text-sm font-semibold text-slate-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors mt-auto w-max">
                                 자세히 보기 
                                 <span class="bg-slate-100 dark:bg-white/10 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-500/20 w-6 h-6 rounded-full flex items-center justify-center ml-2 transition-colors">
                                     <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-0.5 transition-transform text-slate-500 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400"></i>
@@ -337,8 +349,6 @@
                 typingElement.innerHTML = textToType.substring(0, typeIndex + 1);
                 typeIndex++;
                 setTimeout(type, 80); // 타이핑 속도
-            } else {
-                // 타이핑 완료 후 깜빡이는 커서 효과 유지
             }
         }
         
