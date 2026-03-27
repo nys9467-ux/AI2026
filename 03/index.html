@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>부산광역시 인구 동향 및 초고령화 진단 인포그래픽</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Noto Sans KR', sans-serif; background-color: #F8FAFC; color: #1E293B; }
+.chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+@media (min-width: 768px) { .chart-container { height: 400px; } }
+.glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+</style>
+</head>
+<body class="antialiased">
+<!-- Palette: Brilliant Blues & Energetic Orange (#1E3A8A, #06B6D4, #F97316, #FACC15) -->
+<!-- Narrative Plan: 1. Header & Big Stats (Hook) -> 2. The Great Reversal (Dual Trend Line/Bar) -> 3. The Youth Exodus (Stacked Bar) -> 4. Downtown Crisis (Horizontal Bar) -> 5. Policy Roadmaps (HTML/Tailwind Cards). -->
+<!-- Visualization Choices:
+1. Trend 2020-2024 -> Change -> Dual Axis Chart (Chart.js) -> Best for contrasting total decline vs 60+ rise. NO SVG.
+2. Age Demographics 2020 vs 2024 -> Compare/Composition -> 100% Stacked Bar (Chart.js) -> Highlights the proportion shift clearly. NO SVG.
+3. District Aging Rates -> Compare -> Horizontal Bar (Chart.js) -> Easily ranks districts by severity. NO SVG.
+4. Policy Flow -> Organize -> Tailwind Grid/Cards -> Clean UI without external diagram libraries. NO SVG.
+CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in this output. -->
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <nav class="mb-8">
+        <a href="../index.html" class="inline-flex items-center px-4 py-2 bg-white text-[#1E3A8A] text-sm font-bold rounded-lg border border-slate-200 hover:border-[#1E3A8A] hover:bg-[#1E3A8A] hover:text-white transition-all shadow-sm">
+            <span class="mr-2 text-lg leading-none">&#x2302;</span> 홈으로
+        </a>
+    </nav>
+
+    <header class="text-center mb-16">
+        <h2 class="text-[#F97316] font-bold tracking-wide text-lg mb-2 uppercase">2020-2024 Data Insight</h2>
+        <h1 class="text-4xl md:text-5xl font-black text-[#1E3A8A] mb-4 tracking-tight">부산광역시, 초고령 사회의 최전선</h1>
+        <p class="text-lg text-slate-600 max-w-2xl mx-auto">지난 5년간의 인구통계 데이터를 통해 바라본 부산의 급격한 인구 구조 변화와 원도심의 위기, 그리고 미래를 위한 정책적 시사점.</p>
+    </header>
+
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        <div class="glass-card rounded-2xl p-8 shadow-lg border border-slate-100 flex flex-col items-center justify-center text-center">
+            <div class="text-5xl mb-4">&#x1F4C9;</div>
+            <h3 class="text-slate-500 font-semibold mb-1">총인구 수축 (5년간)</h3>
+            <p class="text-4xl font-black text-[#06B6D4]">-9.1<span class="text-xl font-bold ml-1">만 명</span></p>
+        </div>
+        <div class="glass-card rounded-2xl p-8 shadow-lg border border-slate-100 flex flex-col items-center justify-center text-center transform scale-105 border-[#F97316] border-b-4">
+            <div class="text-5xl mb-4">&#x1F4C8;</div>
+            <h3 class="text-slate-500 font-semibold mb-1">60세 이상 팽창 (5년간)</h3>
+            <p class="text-4xl font-black text-[#F97316]">+12.8<span class="text-xl font-bold ml-1">만 명</span></p>
+            <p class="text-sm text-slate-400 mt-2">2024년 기준 100만 명 돌파</p>
+        </div>
+        <div class="glass-card rounded-2xl p-8 shadow-lg border border-slate-100 flex flex-col items-center justify-center text-center">
+            <div class="text-5xl mb-4">&#x26A0;&#xFE0F;</div>
+            <h3 class="text-slate-500 font-semibold mb-1">60세 미만 이탈 (5년간)</h3>
+            <p class="text-4xl font-black text-[#1E3A8A]">-22.0<span class="text-xl font-bold ml-1">만 명</span></p>
+        </div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        <section class="glass-card rounded-2xl shadow-xl p-8 border border-slate-100">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-[#1E3A8A] mb-2">인구 역전: 감소하는 총인구, 치솟는 고령층</h2>
+                <p class="text-slate-600 text-sm">총인구는 매년 꾸준히 감소하고 있으나, 60세 이상 인구는 가파른 상승 곡선을 그리며 점유율이 2020년 26.6%에서 2024년 31.3%로 급증했습니다.</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </section>
+
+        <section class="glass-card rounded-2xl shadow-xl p-8 border border-slate-100">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-[#1E3A8A] mb-2">청장년층의 이탈: 무너지는 인구 허리</h2>
+                <p class="text-slate-600 text-sm">전체 고령화 비율의 폭발적 상승은 비단 노인 인구 증가뿐 아니라, 학업 및 취업으로 인한 60세 미만 경제활동 인구의 심각한 유출(22만명 감소)에 기인합니다.</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="compositionChart"></canvas>
+            </div>
+        </section>
+    </div>
+
+    <section class="glass-card rounded-2xl shadow-xl p-8 border border-slate-100 mb-16 max-w-4xl mx-auto">
+        <div class="mb-8 text-center">
+            <h2 class="text-3xl font-bold text-[#1E3A8A] mb-3">초고령화의 최전선: 원도심의 위기</h2>
+            <p class="text-slate-600 text-sm max-w-2xl mx-auto">시 평균 고령 인구 비중이 31.3%인 반면, 중구, 동구, 서구 등 전통적인 원도심 지역은 이미 37%를 돌파하며 40% 진입을 목전에 두고 있습니다. 이는 도심 공동화 현상이 한계치에 다다랐음을 경고합니다.</p>
+        </div>
+        <div class="chart-container" style="max-width: 700px;">
+            <canvas id="districtChart"></canvas>
+        </div>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold text-center text-[#1E3A8A] mb-10">데이터 기반 3대 핵심 정책 제언</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-[#1E3A8A] text-white rounded-2xl p-8 shadow-lg transform transition duration-300 hover:-translate-y-2">
+                <div class="text-4xl mb-4">&#x1F3E2;</div>
+                <h3 class="text-xl font-bold mb-3 text-[#FACC15]">원도심 핀셋 도시재생</h3>
+                <p class="text-blue-100 text-sm leading-relaxed">고령화 비율 37%를 넘어선 중·동·서구에 일괄적 정책이 아닌 상권 부활 및 빈집 정비를 포함한 맞춤형 복지 및 도시재생 전략이 시급합니다.</p>
+            </div>
+            <div class="bg-[#06B6D4] text-white rounded-2xl p-8 shadow-lg transform transition duration-300 hover:-translate-y-2">
+                <div class="text-4xl mb-4">&#x1F4BB;</div>
+                <h3 class="text-xl font-bold mb-3 text-white">청년 유출 방지 강력 인센티브</h3>
+                <p class="text-cyan-50 text-sm leading-relaxed">단 5년 만에 22만 명이 감소한 60세 미만 인구를 붙잡기 위해 IT, 금융 등 양질의 일자리 유치와 파격적인 주거 및 기업 세제 혜택 구조가 필요합니다.</p>
+            </div>
+            <div class="bg-[#F97316] text-white rounded-2xl p-8 shadow-lg transform transition duration-300 hover:-translate-y-2">
+                <div class="text-4xl mb-4">&#x1F6A6;</div>
+                <h3 class="text-xl font-bold mb-3 text-white">고령 친화적 인프라 재편</h3>
+                <p class="text-orange-100 text-sm leading-relaxed">100만 고령 인구를 수용할 수 있도록 배리어 프리(Barrier-free) 도로망 확충, 대중교통 노선 개편 등 'Age-friendly City'로의 물리적 재설계가 요구됩니다.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+const wrapLabel = (label) => {
+    if (label.length <= 16) return label;
+    const words = label.split(' ');
+    const lines = [];
+    let currentLine = '';
+    words.forEach(word => {
+        if ((currentLine + word).length > 16) {
+            if (currentLine) lines.push(currentLine.trim());
+            currentLine = word + ' ';
+        } else {
+            currentLine += word + ' ';
+        }
+    });
+    if (currentLine) lines.push(currentLine.trim());
+    return lines;
+};
+
+const commonTooltipConfig = {
+    tooltip: {
+        callbacks: {
+            title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            }
+        }
+    }
+};
+
+const labelsTrendRaw = ['2020년 전체 및 고령 인구', '2021년 전체 및 고령 인구', '2022년 전체 및 고령 인구', '2023년 전체 및 고령 인구', '2024년 전체 및 고령 인구'];
+const labelsTrend = labelsTrendRaw.map(wrapLabel);
+
+const ctxTrend = document.getElementById('trendChart').getContext('2d');
+new Chart(ctxTrend, {
+    type: 'bar',
+    data: {
+        labels: labelsTrend,
+        datasets: [
+            {
+                label: '총인구 (명)',
+                data: [3349016, 3324335, 3295760, 3279604, 3257256],
+                backgroundColor: '#06B6D4',
+                borderRadius: 4,
+                yAxisID: 'y',
+                order: 2
+            },
+            {
+                label: '60세 이상 고령 인구 (명)',
+                data: [892277, 934024, 965387, 997993, 1020554],
+                borderColor: '#F97316',
+                backgroundColor: '#F97316',
+                type: 'line',
+                borderWidth: 3,
+                pointRadius: 5,
+                pointBackgroundColor: '#fff',
+                yAxisID: 'y1',
+                order: 1
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: { ...commonTooltipConfig, legend: { position: 'bottom' } },
+        scales: {
+            y: {
+                type: 'linear', display: true, position: 'left',
+                min: 3000000,
+                title: { display: true, text: '총인구' }
+            },
+            y1: {
+                type: 'linear', display: true, position: 'right',
+                min: 800000,
+                grid: { drawOnChartArea: false },
+                title: { display: true, text: '고령 인구' }
+            }
+        }
+    }
+});
+
+const labelsCompRaw = ['2020년 연령대별 구성비', '2024년 연령대별 구성비'];
+const labelsComp = labelsCompRaw.map(wrapLabel);
+
+const ctxComp = document.getElementById('compositionChart').getContext('2d');
+new Chart(ctxComp, {
+    type: 'bar',
+    data: {
+        labels: labelsComp,
+        datasets: [
+            {
+                label: '60세 미만 인구',
+                data: [2456739, 2236702],
+                backgroundColor: '#1E3A8A',
+                stack: 'Stack 0',
+                borderRadius: {topLeft: 0, topRight: 0, bottomLeft: 4, bottomRight: 4}
+            },
+            {
+                label: '60세 이상 인구',
+                data: [892277, 1020554],
+                backgroundColor: '#FACC15',
+                stack: 'Stack 0',
+                borderRadius: {topLeft: 4, topRight: 4, bottomLeft: 0, bottomRight: 0}
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            ...commonTooltipConfig,
+            legend: { position: 'bottom' }
+        },
+        scales: {
+            x: { stacked: true },
+            y: { stacked: true, title: { display: true, text: '인구 수 (명)' } }
+        }
+    }
+});
+
+const labelsDistRaw = ['중구 (원도심 지역)', '동구 (원도심 지역)', '서구 (원도심 지역)', '부산광역시 (시 전체 평균)'];
+const labelsDist = labelsDistRaw.map(wrapLabel);
+
+const ctxDist = document.getElementById('districtChart').getContext('2d');
+new Chart(ctxDist, {
+    type: 'bar',
+    data: {
+        labels: labelsDist,
+        datasets: [{
+            label: '2024년 60세 이상 고령 인구 점유율 (%)',
+            data: [37.9, 37.0, 36.6, 31.3],
+            backgroundColor: [
+                '#F97316',
+                '#F97316',
+                '#F97316',
+                '#94A3B8'
+            ],
+            borderRadius: 4
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            ...commonTooltipConfig,
+            legend: { display: false }
+        },
+        scales: {
+            x: {
+                min: 25,
+                max: 45,
+                title: { display: true, text: '고령 인구 점유율 (%)' }
+            }
+        }
+    }
+});
+</script>
+</body>
+</html>
