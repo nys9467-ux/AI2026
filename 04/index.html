@@ -62,20 +62,24 @@
                 <div class="mr-3"><i data-lucide="home" class="w-5 h-5"></i></div>
                 <span class="font-medium text-sm md:text-base">홈 (Home)</span>
             </a>
-            <!-- 슬라이드 버튼: 새 창에서 강제 PDF 뷰어 렌더링 -->
-            <button onclick="openPdfInNewTab('./web_slide.pdf')" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 text-left">
+            
+            <!-- 슬라이드 버튼: JS window.open 방식을 사용하여 강제 새 탭 열기 -->
+            <button onclick="window.open('https://notebooklm.google.com/notebook/b635c7e2-65e2-4d4c-96cc-7bc7c2b3a020/artifact/7160dca0-acd3-4916-91b0-cb157f10d172', '_blank', 'noopener,noreferrer')" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 text-left">
                 <div class="mr-3"><i data-lucide="presentation" class="w-5 h-5"></i></div>
                 <span class="font-medium text-sm md:text-base">슬라이드</span>
             </button>
+            
             <!-- 인포그래픽 버튼: 이미지 모달 연결 -->
             <button onclick="openImageModal('./web_info.png')" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 text-left">
                 <div class="mr-3"><i data-lucide="pie-chart" class="w-5 h-5"></i></div>
                 <span class="font-medium text-sm md:text-base">인포그래픽</span>
             </button>
-            <a href="https://notebooklm.google.com/notebook/b635c7e2-65e2-4d4c-96cc-7bc7c2b3a020/artifact/a9e39146-9f0d-4c07-8f19-0319f2987dbd" target="_blank" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+            
+            <!-- 동영상 버튼: JS window.open 방식을 사용하여 강제 새 탭 열기 -->
+            <button onclick="window.open('https://notebooklm.google.com/notebook/b635c7e2-65e2-4d4c-96cc-7bc7c2b3a020/artifact/a9e39146-9f0d-4c07-8f19-0319f2987dbd', '_blank', 'noopener,noreferrer')" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 text-left">
                 <div class="mr-3"><i data-lucide="play-circle" class="w-5 h-5"></i></div>
                 <span class="font-medium text-sm md:text-base">동영상</span>
-            </a>
+            </button>
         </div>
     </aside>
 
@@ -111,7 +115,6 @@
     </main>
 
     <!-- Image Modal Overlay (인포그래픽용) -->
-    <!-- 수정됨: flex 충돌 버그 제거 -->
     <div id="imageModal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300" onclick="closeImageModal()">
         <div class="relative max-w-5xl w-full max-h-full flex justify-center" onclick="event.stopPropagation()">
             <button onclick="closeImageModal()" class="absolute -top-12 right-0 md:-right-10 text-white hover:text-slate-300 transition-colors">
@@ -495,31 +498,6 @@
             
             // DOM이 변경되었으므로 Lucide 아이콘 다시 그리기
             lucide.createIcons();
-        }
-
-        // --- PDF 새 창 열기 강제 렌더링 컨트롤 ---
-        function openPdfInNewTab(pdfUrl) {
-            // 수정됨: 상대경로를 절대경로로 변환하여 새 탭의 빈 문서에서도 로드 가능하도록 처리
-            const absoluteUrl = new URL(pdfUrl, window.location.href).href;
-            const viewer = window.open('', '_blank');
-            if (viewer) {
-                viewer.document.write(
-                    '<!DOCTYPE html>' +
-                    '<html lang="ko">' +
-                    '<head>' +
-                    '<meta charset="UTF-8">' +
-                    '<title>슬라이드 뷰어</title>' +
-                    '<style>body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #333; } embed { width: 100%; height: 100%; border: none; }</style>' +
-                    '</head>' +
-                    '<body>' +
-                    '<embed src="' + absoluteUrl + '" type="application/pdf" width="100%" height="100%">' +
-                    '</body>' +
-                    '</html>'
-                );
-                viewer.document.close();
-            } else {
-                alert("팝업 차단이 설정되어 있습니다. 브라우저 설정에서 팝업을 허용해주세요.");
-            }
         }
 
         // --- 이미지 팝업(모달) 컨트롤 ---
