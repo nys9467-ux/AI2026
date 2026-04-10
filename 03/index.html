@@ -15,23 +15,36 @@ body { font-family: 'Noto Sans KR', sans-serif; background-color: #F8FAFC; color
 </style>
 </head>
 <body class="antialiased">
-<!-- Palette: Brilliant Blues & Energetic Orange (#1E3A8A, #06B6D4, #F97316, #FACC15) -->
-<!-- Narrative Plan: 1. Header & Big Stats (Hook) -> 2. The Great Reversal (Dual Trend Line/Bar) -> 3. The Youth Exodus (Stacked Bar) -> 4. Downtown Crisis (Horizontal Bar) -> 5. Policy Roadmaps (HTML/Tailwind Cards). -->
-<!-- Visualization Choices:
-1. Trend 2020-2024 -> Change -> Dual Axis Chart (Chart.js) -> Best for contrasting total decline vs 60+ rise. NO SVG.
-2. Age Demographics 2020 vs 2024 -> Compare/Composition -> 100% Stacked Bar (Chart.js) -> Highlights the proportion shift clearly. NO SVG.
-3. District Aging Rates -> Compare -> Horizontal Bar (Chart.js) -> Easily ranks districts by severity. NO SVG.
-4. Policy Flow -> Organize -> Tailwind Grid/Cards -> Clean UI without external diagram libraries. NO SVG.
-CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in this output. -->
+
+<!-- 영상 팝업 (모달) 영역 -->
+<div id="videoModal" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0" aria-modal="true" role="dialog">
+    <div class="relative w-full max-w-4xl bg-black rounded-2xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300" id="videoContainer">
+        <!-- 닫기 버튼 -->
+        <button onclick="closeVideoModal()" class="absolute top-4 right-4 z-10 text-white bg-black/50 hover:bg-red-500 rounded-full w-10 h-10 flex items-center justify-center transition-colors shadow-md text-xl" aria-label="닫기">
+            &#x2715;
+        </button>
+        <!-- 비디오 요소 -->
+        <div class="aspect-video bg-black w-full flex items-center justify-center">
+            <video id="popupVideo" controls class="w-full h-full outline-none">
+                <source src="/.video1.mp4" type="video/mp4">
+                브라우저가 비디오 태그를 지원하지 않습니다.
+            </video>
+        </div>
+    </div>
+</div>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <nav class="mb-8 flex gap-3">
+    <nav class="mb-8 flex flex-wrap gap-3">
         <a href="../index.html" class="inline-flex items-center px-4 py-2 bg-white text-[#1E3A8A] text-sm font-bold rounded-lg border border-slate-200 hover:border-[#1E3A8A] hover:bg-[#1E3A8A] hover:text-white transition-all shadow-sm">
             <span class="mr-2 text-lg leading-none">&#x2302;</span> 홈으로
         </a>
         <a href="https://gemini.google.com/share/aa4d5208309f" target="_blank" class="inline-flex items-center px-4 py-2 bg-white text-[#F97316] text-sm font-bold rounded-lg border border-slate-200 hover:border-[#F97316] hover:bg-[#F97316] hover:text-white transition-all shadow-sm">
             <span class="mr-2 text-lg leading-none">&#x1F4D6;</span> 스토리북
         </a>
+        <!-- 영상 보기 버튼 추가 (클릭 시 openVideoModal 함수 실행) -->
+        <button onclick="openVideoModal()" class="inline-flex items-center px-4 py-2 bg-white text-[#06B6D4] text-sm font-bold rounded-lg border border-slate-200 hover:border-[#06B6D4] hover:bg-[#06B6D4] hover:text-white transition-all shadow-sm">
+            <span class="mr-2 text-lg leading-none">&#x25B6;&#xFE0F;</span> 영상 보기
+        </button>
     </nav>
 
     <header class="text-center mb-16">
@@ -114,6 +127,51 @@ CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in this output. -->
 </div>
 
 <script>
+// --- 비디오 팝업 관련 로직 ---
+const modal = document.getElementById('videoModal');
+const videoContainer = document.getElementById('videoContainer');
+const video = document.getElementById('popupVideo');
+
+function openVideoModal() {
+    modal.classList.remove('hidden');
+    // 약간의 딜레이를 주어 transition 애니메이션이 적용되도록 함
+    setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        videoContainer.classList.remove('scale-95');
+        videoContainer.classList.add('scale-100');
+    }, 10);
+    video.play(); // 팝업이 열릴 때 영상 자동 재생
+}
+
+function closeVideoModal() {
+    modal.classList.add('opacity-0');
+    videoContainer.classList.remove('scale-100');
+    videoContainer.classList.add('scale-95');
+    
+    // 애니메이션이 끝난 후 hidden 클래스 추가 및 영상 정지
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        video.pause();
+        video.currentTime = 0; // 영상을 처음으로 되감기
+    }, 300);
+}
+
+// 모달 배경(검은 영역) 클릭 시 닫기
+modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+        closeVideoModal();
+    }
+});
+
+// ESC 키를 누르면 닫기
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeVideoModal();
+    }
+});
+
+
+// --- 차트 관련 로직 (기존 코드 유지) ---
 const wrapLabel = (label) => {
     if (label.length <= 16) return label;
     const words = label.split(' ');
@@ -223,6 +281,7 @@ new Chart(ctxComp, {
                 borderRadius: {topLeft: 4, topRight: 4, bottomLeft: 0, bottomRight: 0}
             }
         ]
+    }
     },
     options: {
         responsive: true,
