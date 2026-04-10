@@ -62,11 +62,10 @@
                 <div class="mr-3"><i data-lucide="home" class="w-5 h-5"></i></div>
                 <span class="font-medium text-sm md:text-base">홈 (Home)</span>
             </a>
-            <!-- 슬라이드 버튼: PDF 모달 연결 -->
-            <button onclick="openPdfModal('./web_slide.pdf')" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 text-left">
+            <a href="./web_slide.pdf" target="_blank" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900">
                 <div class="mr-3"><i data-lucide="presentation" class="w-5 h-5"></i></div>
                 <span class="font-medium text-sm md:text-base">슬라이드</span>
-            </button>
+            </a>
             <!-- 인포그래픽 버튼: 이미지 모달 연결 -->
             <button onclick="openImageModal('./web_info.png')" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 text-left">
                 <div class="mr-3"><i data-lucide="pie-chart" class="w-5 h-5"></i></div>
@@ -117,17 +116,6 @@
                 <i data-lucide="x-circle" class="w-8 h-8"></i>
             </button>
             <img id="modalImage" src="" alt="Infographic" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl bg-white">
-        </div>
-    </div>
-
-    <!-- PDF Modal Overlay (슬라이드용) -->
-    <div id="pdfModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300" onclick="closePdfModal()">
-        <div class="relative max-w-5xl w-full h-[85vh] flex justify-center bg-white rounded-lg shadow-2xl" onclick="event.stopPropagation()">
-            <button onclick="closePdfModal()" class="absolute -top-12 right-0 md:-right-10 text-white hover:text-slate-300 transition-colors">
-                <i data-lucide="x-circle" class="w-8 h-8"></i>
-            </button>
-            <!-- iframe을 통해 PDF 내장 -->
-            <iframe id="modalPdf" src="" class="w-full h-full rounded-lg border-0"></iframe>
         </div>
     </div>
 
@@ -526,28 +514,6 @@
             setTimeout(() => {
                 modal.classList.add('hidden');
                 document.getElementById('modalImage').src = "";
-            }, 300);
-        }
-
-        // --- PDF 팝업(모달) 컨트롤 ---
-        function openPdfModal(src) {
-            const modal = document.getElementById('pdfModal');
-            const modalPdf = document.getElementById('modalPdf');
-            modalPdf.src = src;
-            
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-            }, 10);
-        }
-
-        function closePdfModal() {
-            const modal = document.getElementById('pdfModal');
-            modal.classList.add('opacity-0');
-            
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.getElementById('modalPdf').src = "";
             }, 300);
         }
 
