@@ -66,10 +66,10 @@
                 <div class="mr-3"><i data-lucide="presentation" class="w-5 h-5"></i></div>
                 <span class="font-medium text-sm md:text-base">슬라이드</span>
             </a>
-            <a href="./web_info.png" target="_blank" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+            <button onclick="openImageModal('./web_info.png')" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 text-left">
                 <div class="mr-3"><i data-lucide="pie-chart" class="w-5 h-5"></i></div>
                 <span class="font-medium text-sm md:text-base">인포그래픽</span>
-            </a>
+            </button>
             <a href="https://notebooklm.google.com/notebook/b635c7e2-65e2-4d4c-96cc-7bc7c2b3a020/artifact/a9e39146-9f0d-4c07-8f19-0319f2987dbd" target="_blank" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900">
                 <div class="mr-3"><i data-lucide="play-circle" class="w-5 h-5"></i></div>
                 <span class="font-medium text-sm md:text-base">동영상</span>
@@ -107,6 +107,16 @@
             </div>
         </div>
     </main>
+
+    <!-- Image Modal Overlay -->
+    <div id="imageModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300" onclick="closeImageModal()">
+        <div class="relative max-w-5xl w-full max-h-full flex justify-center" onclick="event.stopPropagation()">
+            <button onclick="closeImageModal()" class="absolute -top-12 right-0 md:-right-10 text-white hover:text-slate-300 transition-colors">
+                <i data-lucide="x-circle" class="w-8 h-8"></i>
+            </button>
+            <img id="modalImage" src="" alt="Infographic" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl bg-white">
+        </div>
+    </div>
 
     <script>
         // --- 데이터 정의 ---
@@ -482,6 +492,30 @@
             
             // DOM이 변경되었으므로 Lucide 아이콘 다시 그리기
             lucide.createIcons();
+        }
+
+        // --- 이미지 팝업(모달) 컨트롤 ---
+        function openImageModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = src;
+            
+            modal.classList.remove('hidden');
+            // 부드러운 페이드인(Fade-in) 효과를 위한 지연 처리
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.add('opacity-0');
+            
+            // CSS 애니메이션 완료 후 완전히 숨기기 처리
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.getElementById('modalImage').src = "";
+            }, 300);
         }
 
         // --- 앱 실행 ---
