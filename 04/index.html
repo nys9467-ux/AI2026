@@ -38,7 +38,7 @@
     <div id="mobileOverlay" class="fixed inset-0 bg-black/50 z-20 hidden md:hidden" onclick="toggleMobileMenu(false)"></div>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-slate-200 p-5 transform -translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0">
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-slate-200 p-5 transform -translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0 flex flex-col">
         <div class="flex items-center justify-between mb-8">
             <div class="flex items-center text-indigo-600 font-bold text-xl">
                 <i data-lucide="globe" class="w-8 h-8 mr-2"></i>
@@ -48,9 +48,33 @@
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
         </div>
-        <nav id="navMenu">
-            <!-- Navigation buttons will be generated here -->
-        </nav>
+        
+        <!-- Main Navigation (Scrollable if needed) -->
+        <div class="flex-1 overflow-y-auto pr-2 -mr-2">
+            <nav id="navMenu">
+                <!-- Navigation buttons will be generated here -->
+            </nav>
+        </div>
+
+        <!-- Additional External Links -->
+        <div class="mt-4 pt-4 border-t border-slate-200 space-y-1">
+            <a href="https://nys9467-ux.github.io/AI2026/" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+                <div class="mr-3"><i data-lucide="home" class="w-5 h-5"></i></div>
+                <span class="font-medium text-sm md:text-base">홈 (Home)</span>
+            </a>
+            <a href="#" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+                <div class="mr-3"><i data-lucide="presentation" class="w-5 h-5"></i></div>
+                <span class="font-medium text-sm md:text-base">슬라이드</span>
+            </a>
+            <a href="#" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+                <div class="mr-3"><i data-lucide="pie-chart" class="w-5 h-5"></i></div>
+                <span class="font-medium text-sm md:text-base">인포그래픽</span>
+            </a>
+            <a href="#" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+                <div class="mr-3"><i data-lucide="play-circle" class="w-5 h-5"></i></div>
+                <span class="font-medium text-sm md:text-base">동영상</span>
+            </a>
+        </div>
     </aside>
 
     <!-- Main Content -->
@@ -89,7 +113,7 @@
         const CONTENT = {
             summary: {
                 title: "핵심 요약 (Executive Summary)",
-                icon: "home",
+                icon: "file-text",
                 content: "본 문서는 웹의 기초 구성 요소부터 현대적 아키텍처, 그리고 2026년을 향한 미래 기술 트렌드까지 웹 기술 전반을 종합적으로 분석합니다.",
                 highlights: [
                     { title: "웹의 진화", desc: "단순 정보 공유에서 복잡한 멀티미디어 & 지능형 에이전트 결합 플랫폼으로 진화" },
