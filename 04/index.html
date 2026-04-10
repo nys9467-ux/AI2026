@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웹 기술의 이해와 미래 트렌드 분석</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .animate-fadeIn {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="flex h-screen bg-slate-50 font-sans text-slate-800 overflow-hidden">
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/50 z-20 hidden md:hidden" onclick="toggleMobileMenu(false)"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-slate-200 p-5 transform -translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0">
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center text-indigo-600 font-bold text-xl">
+                <i data-lucide="globe" class="w-8 h-8 mr-2"></i>
+                Web Tech 2026
+            </div>
+            <button class="md:hidden text-slate-500" onclick="toggleMobileMenu(false)">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <nav id="navMenu">
+            <!-- Navigation buttons will be generated here -->
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden w-full">
+        <!-- Mobile Header -->
+        <header class="md:hidden bg-white border-b border-slate-200 p-4 flex items-center justify-between">
+            <div class="flex items-center text-indigo-600 font-bold text-lg">
+                <i data-lucide="globe" class="w-6 h-6 mr-2"></i>
+                Web Tech 2026
+            </div>
+            <button onclick="toggleMobileMenu(true)" class="text-slate-600">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </header>
+
+        <!-- Scrollable Area -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12" id="mainScrollArea">
+            <div class="max-w-4xl mx-auto">
+                <!-- Header Area -->
+                <div class="mb-8 border-b border-slate-200 pb-6">
+                    <h1 id="pageTitle" class="text-3xl md:text-4xl font-extrabold text-slate-900 flex items-center">
+                        <!-- Title will be injected here -->
+                    </h1>
+                </div>
+
+                <!-- View Container -->
+                <div id="viewContainer" class="space-y-8 pb-20">
+                    <!-- Content will be dynamically injected here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- 데이터 정의 ---
+        const CONTENT = {
+            summary: {
+                title: "핵심 요약 (Executive Summary)",
+                icon: "home",
+                content: "본 문서는 웹의 기초 구성 요소부터 현대적 아키텍처, 그리고 2026년을 향한 미래 기술 트렌드까지 웹 기술 전반을 종합적으로 분석합니다.",
+                highlights: [
+                    { title: "웹의 진화", desc: "단순 정보 공유에서 복잡한 멀티미디어 & 지능형 에이전트 결합 플랫폼으로 진화" },
+                    { title: "패러다임 전환", desc: "AI 리터러시와 서버 중심(Server-First) 패러다임으로의 급격한 전환" },
+                    { title: "개발자 역할 변화", desc: "단순 구현(Implementation)에서 전체 시스템 아키텍처 설계(Architecture Design)로 확장" },
+                    { title: "보안 트렌드", desc: "상태 유지가 필요 없는 JWT 기반 인증과 이중 토큰 체계 필수화" }
+                ]
+            },
+            basics: {
+                title: "1. 웹의 기초 구성 요소 및 동작 원리",
+                icon: "code-2",
+                elements: [
+                    { name: "HTML", color: "bg-orange-100 text-orange-700", desc: "콘텐츠의 의미와 구조를 정의하는 마크업 언어. 요소, 시작/종료 태그, 속성으로 구성." },
+                    { name: "CSS", color: "bg-blue-100 text-blue-700", desc: "문서의 표시 방법을 기술하는 스타일 시트. 시각적 표현을 구조와 분리하여 관리." },
+                    { name: "JavaScript", color: "bg-yellow-100 text-yellow-700", desc: "웹 페이지를 위한 프로그래밍 언어. DOM 조작, 상호작용, 네트워크 통신 담당." }
+                ],
+                process: [
+                    { step: "웹 클라이언트", icon: "monitor-play", iconColor: "text-indigo-500", desc: "URL을 통해 HTTP 메시지 형태로 서버에 요청(Request) 전송" },
+                    { step: "웹 서버", icon: "globe", iconColor: "text-green-500", desc: "요청 확인 후 정적 데이터(HTML, CSS, 이미지 등) 처리 및 응답 (예: Apache, IIS)" },
+                    { step: "WAS", icon: "server", iconColor: "text-purple-500", desc: "동적 페이지 처리 및 DB 연동을 담당하는 미들웨어 (예: Tomcat)" },
+                    { step: "Database", icon: "database", iconColor: "text-orange-500", desc: "데이터를 저장하고 WAS의 요청에 따라 정보 응답" }
+                ]
+            },
+            architecture: {
+                title: "2. 웹 아키텍처 및 인증 시스템",
+                icon: "shield-check",
+                rest: [
+                    "인터페이스 일관성 (Uniform Interface)",
+                    "무상태 (Stateless)",
+                    "캐시 처리 가능 (Cacheable)",
+                    "계층화 (Layered System)",
+                    "Code on demand (선택사항)",
+                    "클라이언트/서버 구조"
+                ],
+                auth: [
+                    { type: "쿠키 (Cookie)", location: "클라이언트", features: "Key-Value 형식 문자열", drawback: "보안 취약 및 용량 제한" },
+                    { type: "세션 (Session)", location: "서버", features: "서버 측에서 민감 정보 관리", drawback: "요청 증가 시 서버 부하 발생" },
+                    { type: "토큰 (Token/JWT)", location: "클라이언트", features: "서버의 무상태성 유지", drawback: "탈취 시 대처 어려움" }
+                ],
+                jwt: {
+                    structure: ["Header (알고리즘/타입)", "Payload (데이터/클레임)", "Signature (위변조 방지 서명)"],
+                    strategy: "탈취 위험 최소화를 위해 수명이 짧은 Access Token과 재발급을 위한 Refresh Token 혼합 사용"
+                }
+            },
+            history: {
+                title: "3. 웹 기술의 역사적 변천",
+                icon: "history",
+                timeline: [
+                    { period: "웹 1.0 (1989~2004)", title: "정적 페이지 중심", desc: "읽기 전용 웹. 소수 제작자, 다수 소비자." },
+                    { period: "웹 2.0 (2004~현재)", title: "참여형 웹", desc: "블로그, SNS 등 사용자 생성 콘텐츠(UGC) 주류. Ajax 기반 동적 인터랙션." },
+                    { period: "웹 3.0 및 미래", title: "지능형 & 분산형", desc: "시맨틱 웹, 블록체인(Web3), AI/IoT 결합 유비쿼터스 컴퓨팅 (웹 4.0 전망)." }
+                ]
+            },
+            trends: {
+                title: "4. 2026년 프론트엔드 트렌드",
+                icon: "trending-up",
+                sections: [
+                    {
+                        title: "서버 중심(Server-First) 확산",
+                        icon: "server",
+                        items: [
+                            "React 19 & Next.js 15/16: 개발 중심이 클라이언트에서 서버로 이동",
+                            "React Server Components (RSC): 백엔드 로직을 포함하여 클라이언트 번들 최대 45% 감소",
+                            "풀스택 생산성: 프론트와 백엔드가 단일 코드베이스로 통합"
+                        ]
+                    },
+                    {
+                        title: "인프라 및 아키텍처 고도화",
+                        icon: "layers",
+                        items: [
+                            "엣지 컴퓨팅 (Edge Computing): 레이턴시 50ms 미만 단축 (Cloudflare, Vercel)",
+                            "Rust 기반 툴체인: 터보팩(Turbopack), Rspack 등 빌드 속도 획기적 개선",
+                            "런타임 안전성: Zod, Valibot 등을 활용한 API 응답 실시간 검증 필수화"
+                        ]
+                    },
+                    {
+                        title: "AI 네이티브 개발 환경",
+                        icon: "cpu",
+                        items: [
+                            "AI Native IDE: Cursor, Windsurf 등 컨텍스트 이해 기반. 레거시 분석 60% 단축",
+                            "Design-to-Code: Figma Dev Mode, v0 등으로 퍼블리싱 80% 자동화",
+                            "Shift Left Testing: AI 에이전트의 코드 리뷰 및 유닛 테스트 자동화"
+                        ]
+                    }
+                ]
+            },
+            conclusion: {
+                title: "5. 결론 및 시사점",
+                icon: "lightbulb",
+                content: "2026년의 웹 생태계는 기술적 전문성을 넘어 **'설계자(Architect)'**로서의 역량을 강력하게 요구합니다.",
+                points: [
+                    "AI가 단순 구현을 대체함에 따라, 시스템 아키텍처 설계 및 비즈니스 로직에 집중",
+                    "기술의 변화 속도에 매몰되기보다 도구의 원리를 비판적으로 분석하는 능력 필요",
+                    "조직에 적합한 솔루션을 설계하고 도입하는 능력이 핵심 경쟁력"
+                ]
+            }
+        };
+
+        const tabs = [
+            { id: 'summary', label: '핵심 요약' },
+            { id: 'basics', label: '기초 & 동작 원리' },
+            { id: 'architecture', label: '아키텍처 & 인증' },
+            { id: 'history', label: '역사적 변천' },
+            { id: 'trends', label: '2026 프론트 트렌드' },
+            { id: 'conclusion', label: '결론 및 시사점' },
+        ];
+
+        let activeTab = 'summary';
+
+        // --- 초기화 함수 ---
+        function init() {
+            renderSidebar();
+            switchTab('summary');
+        }
+
+        // --- UI 컨트롤 ---
+        function toggleMobileMenu(isOpen) {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            
+            if (isOpen) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function switchTab(id) {
+            activeTab = id;
+            toggleMobileMenu(false);
+            updateSidebarActiveState();
+            renderContent();
+            
+            // 맨 위로 스크롤
+            document.getElementById('mainScrollArea').scrollTop = 0;
+        }
+
+        function renderSidebar() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.innerHTML = tabs.map(tab => `
+                <button
+                    id="tab-btn-${tab.id}"
+                    onclick="switchTab('${tab.id}')"
+                    class="tab-btn flex items-center w-full p-3 mb-2 rounded-lg transition-all duration-200 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"
+                >
+                    <div class="mr-3"><i data-lucide="${CONTENT[tab.id].icon}" class="w-5 h-5"></i></div>
+                    <span class="font-medium text-sm md:text-base">${tab.label}</span>
+                </button>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function updateSidebarActiveState() {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn flex items-center w-full p-3 mb-2 rounded-lg transition-all duration-200 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600";
+            });
+            const activeBtn = document.getElementById(`tab-btn-${activeTab}`);
+            if (activeBtn) {
+                activeBtn.className = "tab-btn flex items-center w-full p-3 mb-2 rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow-md";
+            }
+        }
+
+        // --- 콘텐츠 렌더링 ---
+        function renderContent() {
+            const data = CONTENT[activeTab];
+            
+            // Title 업데이트
+            const titleHtml = `
+                <span class="bg-indigo-100 text-indigo-600 p-2 rounded-lg mr-4 shadow-sm inline-flex">
+                    <i data-lucide="${data.icon}" class="w-8 h-8"></i>
+                </span>
+                ${data.title}
+            `;
+            document.getElementById('pageTitle').innerHTML = titleHtml;
+
+            // View 컨테이너 업데이트
+            const viewContainer = document.getElementById('viewContainer');
+            let html = '';
+
+            if (activeTab === 'summary') {
+                html = `
+                    <div class="animate-fadeIn">
+                        <p class="text-lg md:text-xl text-slate-600 leading-relaxed mb-8 bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                            ${data.content}
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            ${data.highlights.map(item => `
+                                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                                    <h3 class="font-bold text-lg text-indigo-600 mb-2">${item.title}</h3>
+                                    <p class="text-slate-600">${item.desc}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } 
+            else if (activeTab === 'basics') {
+                html = `
+                    <div class="animate-fadeIn space-y-10">
+                        <section>
+                            <h2 class="text-2xl font-bold mb-6 text-slate-800">1.1 전통적인 웹 3대 요소</h2>
+                            <div class="grid md:grid-cols-3 gap-6">
+                                ${data.elements.map(el => `
+                                    <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden hover:-translate-y-1 transition-transform">
+                                        <div class="p-4 font-bold text-xl ${el.color}">${el.name}</div>
+                                        <div class="p-5 text-slate-600 leading-relaxed">${el.desc}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </section>
+                        
+                        <section>
+                            <h2 class="text-2xl font-bold mb-6 text-slate-800">1.2 웹 서비스의 동작 프로세스</h2>
+                            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                                <div class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-6 md:space-y-0 relative">
+                                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-slate-100 -translate-y-1/2 z-0"></div>
+                                    ${data.process.map(step => `
+                                        <div class="flex flex-col items-center text-center relative z-10 w-full md:w-1/4 px-2 group">
+                                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md border-4 border-slate-50 mb-4 group-hover:scale-110 transition-transform ${step.iconColor}">
+                                                <i data-lucide="${step.icon}" class="w-6 h-6"></i>
+                                            </div>
+                                            <h4 class="font-bold text-slate-800 mb-2">${step.step}</h4>
+                                            <p class="text-sm text-slate-500">${step.desc}</p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                `;
+            }
+            else if (activeTab === 'architecture') {
+                html = `
+                    <div class="animate-fadeIn space-y-10">
+                        <section>
+                            <h2 class="text-2xl font-bold mb-6 text-slate-800">2.1 REST 아키텍처 원칙</h2>
+                            <div class="flex flex-wrap gap-3">
+                                ${data.rest.map(item => `
+                                    <span class="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium border border-indigo-100">
+                                        ${item}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </section>
+
+                        <section>
+                            <h2 class="text-2xl font-bold mb-6 text-slate-800">2.2 인증 방식 비교</h2>
+                            <div class="overflow-x-auto">
+                                <table class="w-full bg-white rounded-xl shadow-sm overflow-hidden text-left border-collapse">
+                                    <thead class="bg-slate-50 border-b border-slate-200">
+                                        <tr>
+                                            <th class="p-4 font-bold text-slate-600 whitespace-nowrap">구분</th>
+                                            <th class="p-4 font-bold text-slate-600 whitespace-nowrap">저장 위치</th>
+                                            <th class="p-4 font-bold text-slate-600">특징</th>
+                                            <th class="p-4 font-bold text-slate-600">단점</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100">
+                                        ${data.auth.map(auth => `
+                                            <tr class="hover:bg-slate-50 transition-colors">
+                                                <td class="p-4 font-semibold text-slate-800 whitespace-nowrap">${auth.type}</td>
+                                                <td class="p-4 text-slate-600 whitespace-nowrap"><span class="bg-slate-100 px-2 py-1 rounded text-sm">${auth.location}</span></td>
+                                                <td class="p-4 text-slate-600">${auth.features}</td>
+                                                <td class="p-4 text-red-500 text-sm">${auth.drawback}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <section class="bg-gradient-to-br from-indigo-900 to-purple-900 rounded-2xl p-8 text-white shadow-lg">
+                            <h2 class="text-2xl font-bold mb-4 flex items-center">
+                                <i data-lucide="shield-check" class="w-6 h-6 mr-2 text-indigo-300"></i>
+                                2.3 JWT (JSON Web Token) 구조
+                            </h2>
+                            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                                ${data.jwt.structure.map(part => `
+                                    <div class="flex-1 bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20 text-center font-medium">
+                                        ${part}
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="bg-black/20 p-4 rounded-lg flex items-start">
+                                <i data-lucide="lightbulb" class="w-6 h-6 text-yellow-400 mr-3 shrink-0"></i>
+                                <p class="text-indigo-100 leading-relaxed">
+                                    <strong class="text-white">이중 보안 전략:</strong> ${data.jwt.strategy}
+                                </p>
+                            </div>
+                        </section>
+                    </div>
+                `;
+            }
+            else if (activeTab === 'history') {
+                html = `
+                    <div class="animate-fadeIn">
+                        <div class="relative border-l-2 border-indigo-200 ml-4 md:ml-6 space-y-12">
+                            ${data.timeline.map(item => `
+                                <div class="relative pl-8 md:pl-10">
+                                    <div class="absolute w-6 h-6 bg-indigo-600 rounded-full -left-[13px] top-1 border-4 border-slate-50 shadow-sm"></div>
+                                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:border-indigo-200 transition-colors">
+                                        <span class="text-sm font-bold text-indigo-500 mb-1 block">${item.period}</span>
+                                        <h3 class="text-xl font-bold text-slate-800 mb-3">${item.title}</h3>
+                                        <p class="text-slate-600 leading-relaxed">${item.desc}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            else if (activeTab === 'trends') {
+                html = `
+                    <div class="animate-fadeIn space-y-8">
+                        ${data.sections.map(section => `
+                            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                                <h3 class="text-xl md:text-2xl font-bold text-slate-800 mb-6 flex items-center">
+                                    <span class="p-2 bg-indigo-50 text-indigo-600 rounded-lg mr-3 inline-flex">
+                                        <i data-lucide="${section.icon}" class="w-5 h-5"></i>
+                                    </span>
+                                    ${section.title}
+                                </h3>
+                                <ul class="space-y-4">
+                                    ${section.items.map(item => `
+                                        <li class="flex items-start">
+                                            <span class="w-2 h-2 mt-2 mr-3 bg-indigo-400 rounded-full shrink-0"></span>
+                                            <span class="text-slate-600 text-lg leading-relaxed">${item}</span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            else if (activeTab === 'conclusion') {
+                // 진하게 표시될 텍스트 파싱 처리
+                const formattedContent = data.content.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white underline decoration-indigo-400 underline-offset-4">$1</strong>');
+                
+                html = `
+                    <div class="animate-fadeIn max-w-3xl mx-auto text-center space-y-10">
+                        <div class="bg-indigo-600 text-white p-8 md:p-12 rounded-3xl shadow-xl">
+                            <h2 class="text-3xl font-extrabold mb-6">설계자(Architect)로의 진화</h2>
+                            <p class="text-xl leading-relaxed text-indigo-100">
+                                ${formattedContent}
+                            </p>
+                        </div>
+                        
+                        <div class="grid gap-6 text-left">
+                            ${data.points.map((point, i) => `
+                                <div class="flex items-center p-6 bg-white rounded-xl shadow-sm border border-slate-100">
+                                    <div class="w-12 h-12 bg-green-50 text-green-600 rounded-full flex items-center justify-center font-bold text-xl mr-6 shrink-0">
+                                        ${i + 1}
+                                    </div>
+                                    <p class="text-lg text-slate-700 font-medium">${point}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            viewContainer.innerHTML = html;
+            
+            // DOM이 변경되었으므로 Lucide 아이콘 다시 그리기
+            lucide.createIcons();
+        }
+
+        // --- 앱 실행 ---
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
