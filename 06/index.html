@@ -1,1 +1,420 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예비 사서 나인성 포트폴리오</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* 공통 스크롤바 커스텀 */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* 카드뉴스 가로 스크롤 최적화 (터치 및 드래그 보조) */
+        .card-scroll-container {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
+            scrollbar-width: thin; /* Firefox 얇은 스크롤바 */
+        }
+    </style>
+</head>
+<body class="flex h-screen bg-stone-50 font-sans text-stone-800 overflow-hidden">
 
+    <!-- BGM Audio Element (잔잔한 피아노 곡으로 변경) -->
+    <audio id="bgmAudio" loop preload="none">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=calm-and-peaceful-115481.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileOverlay" class="fixed inset-0 bg-black/50 z-20 hidden md:hidden" onclick="toggleMobileMenu(false)"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-stone-200 p-5 transform -translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0 flex flex-col shadow-lg md:shadow-none">
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center text-teal-700 font-bold text-xl">
+                <i data-lucide="book-open" class="w-7 h-7 mr-2"></i>
+                Portfolio
+            </div>
+            <button class="md:hidden text-stone-500 hover:text-stone-800 transition-colors" onclick="toggleMobileMenu(false)">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+        
+        <!-- BGM Controller -->
+        <div class="mb-6 p-3 bg-stone-50 rounded-xl flex items-center justify-between border border-stone-200">
+            <div class="flex items-center text-sm font-medium text-stone-600">
+                <i data-lucide="music" class="w-4 h-4 mr-2"></i> 배경음악 (BGM)
+            </div>
+            <button id="bgmBtn" onclick="toggleBGM()" class="text-teal-600 hover:text-teal-800 p-1.5 bg-white rounded-lg shadow-sm transition-all hover:shadow">
+                <i data-lucide="play" id="bgmIcon" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+        <!-- Main Navigation -->
+        <div class="flex-1 overflow-y-auto pr-2 -mr-2">
+            <nav id="navMenu" class="space-y-1">
+                <!-- Navigation buttons will be generated here -->
+            </nav>
+        </div>
+
+        <!-- Additional External Links -->
+        <div class="mt-4 pt-4 border-t border-stone-200 space-y-2">
+            <a href="https://nys9467-ux.github.io/AI2026/" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-stone-600 hover:bg-teal-50 hover:text-teal-700 font-medium group">
+                <div class="mr-3 bg-white p-1 rounded shadow-sm group-hover:text-teal-600"><i data-lucide="home" class="w-4 h-4"></i></div>
+                <span class="text-sm md:text-base">홈 (Home)</span>
+            </a>
+            <!-- 인포그래픽 버튼 (주소 미설정으로 # 처리) -->
+            <a href="#" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-stone-600 hover:bg-teal-50 hover:text-teal-700 font-medium group">
+                <div class="mr-3 bg-white p-1 rounded shadow-sm group-hover:text-teal-600"><i data-lucide="pie-chart" class="w-4 h-4"></i></div>
+                <span class="text-sm md:text-base">인포그래픽</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden w-full relative bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNlNWU3ZWIiLz48L3N2Zz4=')]">
+        <!-- Mobile Header -->
+        <header class="md:hidden bg-white/90 backdrop-blur-sm border-b border-stone-200 p-4 flex items-center justify-between z-10 shadow-sm">
+            <div class="flex items-center text-teal-700 font-bold text-lg">
+                <i data-lucide="book-open" class="w-5 h-5 mr-2"></i>
+                Portfolio
+            </div>
+            <button onclick="toggleMobileMenu(true)" class="text-stone-600 hover:text-stone-900 transition-colors p-1">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </header>
+
+        <!-- Scrollable Area -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12 z-10" id="mainScrollArea">
+            <div class="max-w-4xl mx-auto bg-white/90 backdrop-blur-md rounded-3xl shadow-sm border border-white/50 p-6 md:p-10 lg:p-12">
+                
+                <!-- Header Area -->
+                <div class="mb-10 text-center md:text-left border-b border-stone-100 pb-8">
+                    <span class="inline-block px-3 py-1 bg-teal-50 text-teal-700 rounded-full text-sm font-semibold mb-4 border border-teal-100">
+                        부산대학교 문헌정보학과
+                    </span>
+                    <h1 id="pageTitle" class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-stone-900 leading-tight tracking-tight">
+                        사람과 정보의 가치를 잇는<br/>예비 사서, 나인성입니다
+                    </h1>
+                </div>
+
+                <!-- View Container -->
+                <div id="viewContainer" class="space-y-8 pb-10 min-h-[50vh]">
+                    <!-- Content will be dynamically injected here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- 데이터 정의 ---
+        const CONTENT = {
+            intro: {
+                title: "1. 나는 어떤 사람인가?",
+                icon: "user",
+                quote: "책의 질서 속에서 평온을 찾고, 사람과의 소통 속에서 에너지를 얻는 사람",
+                content: `
+                    저는 책을 읽는 행위만큼이나 책이라는 존재 자체를 사랑하는 사람입니다. 서가에 꽂힌 책들을 바라보고, 
+                    저마다의 기준에 따라 책을 분류하고 정리할 때 큰 즐거움과 안정감을 느낍니다.<br><br>
+                    하지만 저의 세계는 조용한 서고 안에만 머물지 않습니다. 저는 사람들과 대화하고 소통하는 것을 무척 좋아합니다. 
+                    누군가의 관심사를 듣고 그에 맞는 이야기를 나누는 과정에서 큰 에너지를 얻습니다. 
+                    즉, 저는 <strong>'정리된 정보(책)'</strong>와 <strong>'살아있는 사람'</strong> 사이에서 교감하는 것을 즐기는 사람입니다.
+                `
+            },
+            major: {
+                title: "2. 전공과 나의 연결고리",
+                icon: "library",
+                sections: [
+                    {
+                        subtitle: "나의 전공은 무엇을 배우는 학문인가?",
+                        quote: "정보의 바다에서 길을 찾아주는 나침반, 문헌정보학",
+                        text: "제가 전공하는 문헌정보학은 단순히 '도서관에서 일하는 법'을 배우는 것을 넘어, 인류의 지식과 정보를 수집, 조직, 축적하여 필요한 사람에게 효과적으로 전달하는 방법을 연구하는 학문입니다. 현대에는 데이터베이스, 디지털 도서관, 정보 검색, 데이터 사이언스 등 핵심 기술과 원리를 배우며 '정보'와 '이용자' 사이의 간극을 메우는 브리지(Bridge) 역할을 합니다."
+                    },
+                    {
+                        subtitle: "나의 관심사, 강점, 경험은 전공과 어떻게 연결되는가?",
+                        quote: "나의 일상이 학문이 되고, 나의 성향이 전문성이 되다",
+                        text: "<ul class='list-disc pl-5 space-y-3 mt-2 text-stone-600 marker:text-teal-500'><li><strong class='text-stone-800'>자료조직 역량:</strong> 책을 관리하고 정리하는 것을 좋아하는 성향은 방대한 자료 속에서 체계를 세우는 '분류 및 목록' 역량과 직결됩니다.</li><li><strong class='text-stone-800'>정보 서비스 역량:</strong> 사람들과 소통하기를 좋아하는 강점은 도서관 이용자의 니즈를 파악하여 맞춤형 정보를 제공(Reference Service)하는 데 강력한 무기가 됩니다.</li></ul>"
+                    }
+                ]
+            },
+            vision: {
+                title: "3. 사회적 가치와 진로",
+                icon: "compass",
+                sections: [
+                    {
+                        subtitle: "나의 전공은 사회와 미래에 어떤 의미를 가지는가?",
+                        quote: "AI 시대, 거짓 정보 속에서 진실과 가치를 큐레이션하는 최후의 보루",
+                        text: "가짜 뉴스와 정보의 과잉(Information Overload) 속에서, 신뢰할 수 있는 정보를 선별(Curation)하고 제공하는 전문가의 역할은 그 어느 때보다 중요해졌습니다. 공공도서관은 누구나 차별 없이 정보에 접근하고 디지털 리터러시를 교육받을 수 있는 <strong>'정보 민주주의의 최전선'</strong>이며, 문헌정보학은 이러한 사회적 안전망을 설계하는 학문입니다."
+                    },
+                    {
+                        subtitle: "나는 앞으로 어떤 진로를 그리고 있는가?",
+                        quote: "지역사회의 지식 문화 플랫폼을 만드는 공공도서관 사서",
+                        text: "저는 소통 능력을 십분 발휘하여 <strong>'공공도서관 사서'</strong>가 되고자 합니다. 단순히 조용히 책만 읽는 곳이 아닌, 아이들이 상상력을 키우고 어르신들이 이웃과 교류하는 <strong>'지역사회의 지식 문화 플랫폼(Community Hub)'</strong>을 만들고 싶습니다. 정갈하게 분류된 책들 사이에서 지역 주민들에게 꼭 필요한 정보와 문화를 연결해 주는 따뜻하고 전문적인 사서로 성장하겠습니다."
+                    }
+                ]
+            },
+            cardnews: {
+                title: "4. 전공 소개 카드뉴스",
+                icon: "layers",
+                subtitle: "문헌정보학 4대 핵심 직무 및 진로 가이드",
+                cards: [
+                    {
+                        title: "사서 / 정보전문가",
+                        color: "bg-emerald-500",
+                        icon: "book",
+                        tasks: ["정보자원 수집 및 조직", "이용자 맞춤 서비스 정책 개발", "독서문화 프로그램 기획"],
+                        skills: "비판적 사고, 이용자 공감, 기획력"
+                    },
+                    {
+                        title: "정보시스템 전문가",
+                        color: "bg-blue-500",
+                        icon: "database",
+                        tasks: ["지능형 플랫폼 구축", "데이터베이스(DB) 관리", "데이터 수집 및 분석 모형 설계"],
+                        skills: "디지털 문해력, 시스템 설계, 데이터 마이닝"
+                    },
+                    {
+                        title: "정보 콘텐츠 전문가",
+                        color: "bg-purple-500",
+                        icon: "search",
+                        tasks: ["검색 / 웹 서비스 기획", "학술정보 유통망 관리", "디지털 콘텐츠 큐레이션"],
+                        skills: "창의적 기획력, 검색 알고리즘 이해, 트렌드 분석"
+                    },
+                    {
+                        title: "기록관리 전문가",
+                        color: "bg-amber-500",
+                        icon: "archive",
+                        tasks: ["공공/역사 기록물 평가 및 선별", "디지털 아카이빙 구축", "기록물 영구 보존 및 서비스"],
+                        skills: "역사적 사명감, 기록 보존 및 평가 기술"
+                    }
+                ]
+            }
+        };
+
+        const tabs = [
+            { id: 'intro', label: '1. 나는 어떤 사람인가?' },
+            { id: 'major', label: '2. 전공과 나의 연결' },
+            { id: 'vision', label: '3. 사회적 의미와 진로' },
+            { id: 'cardnews', label: '4. 전공 소개 카드뉴스' }
+        ];
+
+        let activeTab = 'intro';
+        let isBgmPlaying = false;
+
+        // --- 초기화 함수 ---
+        function init() {
+            renderSidebar();
+            switchTab('intro');
+        }
+
+        // --- BGM 컨트롤러 ---
+        function toggleBGM() {
+            const bgm = document.getElementById('bgmAudio');
+            const bgmIcon = document.getElementById('bgmIcon');
+            const bgmBtn = document.getElementById('bgmBtn');
+            
+            if (isBgmPlaying) {
+                bgm.pause();
+                bgmIcon.setAttribute('data-lucide', 'play');
+                bgmBtn.classList.remove('text-red-500');
+                bgmBtn.classList.add('text-teal-600');
+            } else {
+                bgm.play().catch(e => {
+                    alert("브라우저 정책으로 인해 오디오 자동 재생이 차단되었습니다. 화면의 다른 곳을 먼저 클릭하신 후 다시 시도해주세요.");
+                });
+                bgmIcon.setAttribute('data-lucide', 'pause');
+                bgmBtn.classList.remove('text-teal-600');
+                bgmBtn.classList.add('text-red-500'); // 재생 중일 때 버튼 색상 변경
+            }
+            isBgmPlaying = !isBgmPlaying;
+            lucide.createIcons();
+        }
+
+        // --- UI 컨트롤 ---
+        function toggleMobileMenu(isOpen) {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            
+            if (isOpen) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function switchTab(id) {
+            activeTab = id;
+            toggleMobileMenu(false);
+            updateSidebarActiveState();
+            renderContent();
+            document.getElementById('mainScrollArea').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderSidebar() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.innerHTML = tabs.map(tab => `
+                <button
+                    id="tab-btn-${tab.id}"
+                    onclick="switchTab('${tab.id}')"
+                    class="tab-btn flex items-center w-full p-3.5 rounded-xl transition-all duration-200 text-stone-600 hover:bg-stone-100 hover:text-stone-900 text-left"
+                >
+                    <div class="mr-3 text-stone-400"><i data-lucide="${CONTENT[tab.id].icon}" class="w-5 h-5"></i></div>
+                    <span class="font-medium text-sm md:text-base tracking-wide">${tab.label}</span>
+                </button>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function updateSidebarActiveState() {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn flex items-center w-full p-3.5 rounded-xl transition-all duration-200 text-stone-600 hover:bg-stone-100 hover:text-stone-900 text-left mb-1.5";
+                btn.querySelector('div').className = "mr-3 text-stone-400";
+            });
+            const activeBtn = document.getElementById(`tab-btn-${activeTab}`);
+            if (activeBtn) {
+                activeBtn.className = "tab-btn flex items-center w-full p-3.5 rounded-xl transition-all duration-200 bg-teal-50 border border-teal-100 text-teal-800 shadow-sm text-left mb-1.5";
+                activeBtn.querySelector('div').className = "mr-3 text-teal-600";
+            }
+        }
+
+        // --- 콘텐츠 렌더링 ---
+        function renderContent() {
+            const data = CONTENT[activeTab];
+            const viewContainer = document.getElementById('viewContainer');
+            let html = '';
+
+            const mainHeader = document.getElementById('pageTitle');
+            if(activeTab === 'cardnews') {
+                mainHeader.innerHTML = `문헌정보학의 세계로 초대합니다<br/><span class="text-2xl text-stone-500 font-medium mt-2 block tracking-normal">4대 핵심 직무 가이드</span>`;
+            } else {
+                mainHeader.innerHTML = `사람과 정보의 가치를 잇는<br/>예비 사서, 나인성입니다`;
+            }
+
+            if (activeTab === 'intro') {
+                html = `
+                    <div class="animate-fadeIn mt-2">
+                        <div class="border-l-4 border-teal-500 pl-6 py-4 mb-8 bg-teal-50/50 rounded-r-xl">
+                            <h2 class="text-xl md:text-2xl font-bold text-teal-800 leading-snug">"${data.quote}"</h2>
+                        </div>
+                        <div class="text-lg text-stone-700 leading-loose space-y-6">
+                            <p>${data.content.split('<br><br>')[0]}</p>
+                            <p>${data.content.split('<br><br>')[1]}</p>
+                        </div>
+                    </div>
+                `;
+            } 
+            else if (activeTab === 'major' || activeTab === 'vision') {
+                html = `
+                    <div class="animate-fadeIn space-y-12 mt-2">
+                        ${data.sections.map(section => `
+                            <section>
+                                <h3 class="text-xl md:text-2xl font-bold text-stone-900 mb-5 flex items-center border-b border-stone-200 pb-3">
+                                    <span class="bg-teal-100 p-1.5 rounded-lg mr-3 shadow-sm"><i data-lucide="check" class="w-5 h-5 text-teal-700"></i></span>
+                                    ${section.subtitle}
+                                </h3>
+                                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-stone-100">
+                                    <!-- 수정된 부분: 어색했던 아이콘을 지우고 텍스트 따옴표("")로 통일 -->
+                                    <p class="text-teal-700 font-bold mb-5 text-lg">
+                                        "${section.quote}"
+                                    </p>
+                                    <div class="text-stone-700 leading-loose text-lg">
+                                        ${section.text}
+                                    </div>
+                                </div>
+                            </section>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            else if (activeTab === 'cardnews') {
+                html = `
+                    <div class="animate-fadeIn mt-2 w-full">
+                        <div class="card-scroll-container flex overflow-x-auto space-x-6 pb-8 pt-4 snap-x snap-mandatory px-2">
+                            ${data.cards.map((card, index) => `
+                                <div class="snap-center shrink-0 w-[280px] md:w-[320px] bg-white rounded-3xl shadow-lg border border-stone-100 overflow-hidden relative group transform transition duration-300 hover:-translate-y-2 hover:shadow-xl">
+                                    <div class="h-36 ${card.color} flex items-center justify-center relative overflow-hidden">
+                                        <div class="absolute inset-0 bg-black/10 mix-blend-overlay"></div>
+                                        <!-- 데코레이션 요소 -->
+                                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/20 rounded-full blur-xl"></div>
+                                        <i data-lucide="${card.icon}" class="w-14 h-14 text-white relative z-10 drop-shadow-md"></i>
+                                    </div>
+                                    <div class="p-6 md:p-8">
+                                        <div class="inline-block px-3 py-1 bg-stone-100 text-stone-500 rounded-full text-xs font-bold tracking-widest mb-3">
+                                            TRACK 0${index + 1}
+                                        </div>
+                                        <h3 class="text-xl md:text-2xl font-bold text-stone-800 mb-5 leading-tight">${card.title}</h3>
+                                        <div class="space-y-5">
+                                            <div>
+                                                <p class="text-xs font-bold text-teal-600 mb-3 uppercase tracking-widest border-b border-teal-100 pb-1">주요 직무</p>
+                                                <ul class="text-sm text-stone-600 space-y-2.5">
+                                                    ${card.tasks.map(task => `<li class="flex items-start"><i data-lucide="chevron-right" class="w-4 h-4 mr-1 text-teal-400 shrink-0 mt-0.5"></i><span class="leading-relaxed">${task}</span></li>`).join('')}
+                                                </ul>
+                                            </div>
+                                            <div class="pt-5 mt-2 border-t border-stone-100 bg-stone-50/50 -mx-6 -mb-6 p-6 md:-mx-8 md:-mb-8 md:p-8">
+                                                <p class="text-xs font-bold text-orange-500 mb-2 uppercase tracking-widest">핵심 필요 역량</p>
+                                                <p class="text-sm font-semibold text-stone-800 leading-relaxed">${card.skills}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="text-center text-sm font-medium text-stone-500 mt-4 flex items-center justify-center bg-white py-2 px-4 rounded-full border border-stone-200 w-max mx-auto shadow-sm">
+                            <i data-lucide="mouse-pointer-click" class="w-4 h-4 mr-2 text-teal-500"></i> 카드를 좌우로 스크롤(스와이프) 해보세요
+                        </div>
+                    </div>
+                `;
+            }
+
+            viewContainer.innerHTML = html;
+            lucide.createIcons();
+            
+            // 데스크톱 마우스 드래그 스크롤 기능 추가 (카드뉴스 탭용)
+            if(activeTab === 'cardnews') {
+                const slider = document.querySelector('.card-scroll-container');
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+
+                slider.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    slider.classList.add('cursor-grabbing');
+                    startX = e.pageX - slider.offsetLeft;
+                    scrollLeft = slider.scrollLeft;
+                });
+                slider.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    slider.classList.remove('cursor-grabbing');
+                });
+                slider.addEventListener('mouseup', () => {
+                    isDown = false;
+                    slider.classList.remove('cursor-grabbing');
+                });
+                slider.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - slider.offsetLeft;
+                    const walk = (x - startX) * 2; // 스크롤 속도
+                    slider.scrollLeft = scrollLeft - walk;
+                });
+            }
+        }
+
+        // --- 앱 실행 ---
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
