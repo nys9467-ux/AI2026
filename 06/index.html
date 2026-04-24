@@ -32,7 +32,7 @@
 </head>
 <body class="flex h-screen bg-stone-50 font-sans text-stone-800 overflow-hidden">
 
-    <!-- BGM Audio Element (잔잔한 피아노 곡으로 변경) -->
+    <!-- BGM Audio Element (잔잔한 피아노 곡) -->
     <audio id="bgmAudio" loop preload="none">
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=calm-and-peaceful-115481.mp3" type="audio/mpeg">
     </audio>
@@ -106,7 +106,7 @@
                         부산대학교 문헌정보학과
                     </span>
                     <h1 id="pageTitle" class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-stone-900 leading-tight tracking-tight">
-                        사람과 정보의 가치를 잇는<br/>예비 사서, 나인성입니다
+                        <!-- Title will be dynamically injected here -->
                     </h1>
                 </div>
 
@@ -209,6 +209,34 @@
                         skills: "역사적 사명감, 기록 보존 및 평가 기술"
                     }
                 ]
+            },
+            future: {
+                title: "5. 마무리 및 미래 계획",
+                icon: "milestone",
+                sections: [
+                    {
+                        subtitle: "예비 사서 나인성의 Action Plan",
+                        plans: [
+                            { 
+                                title: "핵심 전문성 강화", 
+                                desc: "사서직 공무원 임용을 위한 전공 지식 심화 학습과 더불어, 현대 도서관에 필수적인 데이터베이스 및 정보 검색 등 디지털 리터러시(Digital Literacy) 실무 역량을 확보하겠습니다." 
+                            },
+                            { 
+                                title: "글로벌 비전 확대", 
+                                desc: "'2026년 세계도서관정보대회(WLIC)' 부산 개최를 기점으로 글로벌 도서관 트렌드를 파악하고, JPT 및 HSK 등 외국어 해독 능력을 지속적으로 길러 정보 서비스의 범위를 넓히겠습니다." 
+                            },
+                            { 
+                                title: "현장 실무 경험 축적", 
+                                desc: "지역 공공도서관 현장 실습에 적극적으로 임하며, 다양한 연령대와 소외계층을 아우르는 독서 문화 프로그램을 직접 기획하고 봉사하며 현장 감각을 익히겠습니다." 
+                            }
+                        ]
+                    },
+                    {
+                        subtitle: "마무리하며",
+                        quote: "모든 지식과 정보의 끝에는 결국 '사람'이 있습니다.",
+                        text: "기술이 아무리 발전하고 AI가 정보를 대신 찾아주는 시대가 오더라도, 정보 이면에 담긴 맥락을 읽고 사람의 마음을 위로하는 것은 결국 사람의 몫이라고 믿습니다.<br><br>저는 문헌정보학이라는 단단한 학문적 토대 위에 '공감'과 '소통'이라는 저만의 강점을 더하여, 누구에게나 열려 있는 따뜻하고 전문적인 지식 문화 플랫폼을 가꾸어 나가는 사서로 끊임없이 성장하겠습니다."
+                    }
+                ]
             }
         };
 
@@ -216,7 +244,8 @@
             { id: 'intro', label: '1. 나는 어떤 사람인가?' },
             { id: 'major', label: '2. 전공과 나의 연결' },
             { id: 'vision', label: '3. 사회적 의미와 진로' },
-            { id: 'cardnews', label: '4. 전공 소개 카드뉴스' }
+            { id: 'cardnews', label: '4. 전공 소개 카드뉴스' },
+            { id: 'future', label: '5. 마무리 및 미래 계획' } // 새 탭 추가
         ];
 
         let activeTab = 'intro';
@@ -306,9 +335,12 @@
             const viewContainer = document.getElementById('viewContainer');
             let html = '';
 
+            // 제목 헤더 상태 변경
             const mainHeader = document.getElementById('pageTitle');
             if(activeTab === 'cardnews') {
                 mainHeader.innerHTML = `문헌정보학의 세계로 초대합니다<br/><span class="text-2xl text-stone-500 font-medium mt-2 block tracking-normal">4대 핵심 직무 가이드</span>`;
+            } else if (activeTab === 'future') {
+                mainHeader.innerHTML = `내일을 향한 발걸음<br/><span class="text-2xl text-stone-500 font-medium mt-2 block tracking-normal">예비 사서 나인성의 준비와 계획</span>`;
             } else {
                 mainHeader.innerHTML = `사람과 정보의 가치를 잇는<br/>예비 사서, 나인성입니다`;
             }
@@ -384,6 +416,45 @@
                         <div class="text-center text-sm font-medium text-stone-500 mt-4 flex items-center justify-center bg-white py-2 px-4 rounded-full border border-stone-200 w-max mx-auto shadow-sm">
                             <i data-lucide="mouse-pointer-click" class="w-4 h-4 mr-2 text-teal-500"></i> 카드를 좌우로 스크롤(스와이프) 해보세요
                         </div>
+                    </div>
+                `;
+            }
+            else if (activeTab === 'future') {
+                html = `
+                    <div class="animate-fadeIn space-y-12 mt-2">
+                        <!-- Action Plans (Grid) -->
+                        <section>
+                            <h3 class="text-xl md:text-2xl font-bold text-stone-900 mb-5 flex items-center border-b border-stone-200 pb-3">
+                                <span class="bg-teal-100 p-1.5 rounded-lg mr-3 shadow-sm"><i data-lucide="target" class="w-5 h-5 text-teal-700"></i></span>
+                                ${data.sections[0].subtitle}
+                            </h3>
+                            <div class="grid gap-6 md:grid-cols-3">
+                                ${data.sections[0].plans.map((plan, i) => `
+                                    <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-stone-100 hover:border-teal-300 hover:shadow-md transition-all">
+                                        <div class="w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center text-teal-600 font-extrabold text-xl mb-5 shadow-sm">0${i+1}</div>
+                                        <h4 class="font-bold text-stone-800 text-lg mb-3">${plan.title}</h4>
+                                        <p class="text-stone-600 text-sm md:text-base leading-relaxed">${plan.desc}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </section>
+                        
+                        <!-- Conclusion Statement -->
+                        <section>
+                            <h3 class="text-xl md:text-2xl font-bold text-stone-900 mb-5 flex items-center border-b border-stone-200 pb-3">
+                                <span class="bg-teal-100 p-1.5 rounded-lg mr-3 shadow-sm"><i data-lucide="flag" class="w-5 h-5 text-teal-700"></i></span>
+                                ${data.sections[1].subtitle}
+                            </h3>
+                            <div class="bg-gradient-to-br from-teal-700 to-teal-900 p-8 md:p-12 rounded-[2rem] shadow-lg text-white">
+                                <p class="font-bold mb-6 text-xl md:text-2xl text-teal-100 text-center leading-snug">
+                                    "${data.sections[1].quote}"
+                                </p>
+                                <div class="text-teal-50/90 leading-loose text-lg font-medium space-y-4">
+                                    <p>${data.sections[1].text.split('<br><br>')[0]}</p>
+                                    <p>${data.sections[1].text.split('<br><br>')[1]}</p>
+                                </div>
+                            </div>
+                        </section>
                     </div>
                 `;
             }
