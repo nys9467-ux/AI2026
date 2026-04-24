@@ -75,11 +75,11 @@
                 <div class="mr-3 bg-white p-1 rounded shadow-sm group-hover:text-teal-600"><i data-lucide="home" class="w-4 h-4"></i></div>
                 <span class="text-sm md:text-base">홈 (Home)</span>
             </a>
-            <!-- 인포그래픽 버튼 (주소 미설정으로 # 처리) -->
-            <a href="#" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-stone-600 hover:bg-teal-50 hover:text-teal-700 font-medium group">
+            <!-- 인포그래픽 버튼 (팝업 연결) -->
+            <button onclick="openImageModal('./libinfo.png')" class="flex items-center w-full p-3 rounded-lg transition-all duration-200 text-stone-600 hover:bg-teal-50 hover:text-teal-700 font-medium group text-left">
                 <div class="mr-3 bg-white p-1 rounded shadow-sm group-hover:text-teal-600"><i data-lucide="pie-chart" class="w-4 h-4"></i></div>
                 <span class="text-sm md:text-base">인포그래픽</span>
-            </a>
+            </button>
         </div>
     </aside>
 
@@ -117,6 +117,16 @@
             </div>
         </div>
     </main>
+
+    <!-- Image Modal Overlay (인포그래픽용) -->
+    <div id="imageModal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300" onclick="closeImageModal()">
+        <div class="relative max-w-5xl w-full max-h-full flex justify-center" onclick="event.stopPropagation()">
+            <button onclick="closeImageModal()" class="absolute -top-12 right-0 md:-right-10 text-white hover:text-stone-300 transition-colors">
+                <i data-lucide="x-circle" class="w-8 h-8"></i>
+            </button>
+            <img id="modalImage" src="" alt="Infographic" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl bg-white">
+        </div>
+    </div>
 
     <script>
         // --- 데이터 정의 ---
@@ -326,7 +336,6 @@
                                     ${section.subtitle}
                                 </h3>
                                 <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-stone-100">
-                                    <!-- 수정된 부분: 어색했던 아이콘을 지우고 텍스트 따옴표("")로 통일 -->
                                     <p class="text-teal-700 font-bold mb-5 text-lg">
                                         "${section.quote}"
                                     </p>
@@ -411,6 +420,30 @@
                     slider.scrollLeft = scrollLeft - walk;
                 });
             }
+        }
+
+        // --- 이미지 팝업(모달) 컨트롤 ---
+        function openImageModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = src;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex'); // 모달이 켜질 때만 flex 적용
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex'); // 모달이 닫히면 flex 제거
+                document.getElementById('modalImage').src = "";
+            }, 300);
         }
 
         // --- 앱 실행 ---
