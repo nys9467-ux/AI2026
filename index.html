@@ -6,7 +6,6 @@
     <title>AI 리터러시의 이해 | 나인성</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Tailwind CSS 다크모드 클래스 수동 제어 설정
         tailwind.config = {
             darkMode: 'class',
         }
@@ -15,7 +14,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@100;300;400;500;700;900&display=swap');
 
-        /* 테마별 색상 변수 지정 */
         :root {
             --bg-color: #f8fafc;
             --mesh-color-1: rgba(99, 102, 241, 0.1);
@@ -49,15 +47,6 @@
             overflow-x: hidden;
         }
 
-        /* 텍스트 그라데이션 */
-        .gradient-text {
-            background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #f472b6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* 스크롤 페이드인 애니메이션 */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -69,18 +58,9 @@
             transform: translateY(0);
         }
 
-        /* 딜레이 유틸리티 */
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
-
-        /* 미래지향적 배경 메쉬 그라데이션 */
         .bg-mesh {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1;
             background-color: var(--bg-color);
             background-image: 
@@ -97,7 +77,6 @@
             100% { transform: scale(1.1); }
         }
 
-        /* 카드 마우스 트래킹 글로 효과 */
         .portfolio-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -124,11 +103,8 @@
             border-color: rgba(99, 102, 241, 0.3);
         }
 
-        .portfolio-card:hover::before {
-            opacity: 1;
-        }
+        .portfolio-card:hover::before { opacity: 1; }
 
-        /* 타이핑 커서 애니메이션 */
         .typing-cursor::after {
             content: '|';
             animation: blink 1s step-end infinite;
@@ -139,28 +115,16 @@
             50% { opacity: 0; }
         }
         
-        /* 커스텀 스크롤바 */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--scrollbar-track);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--scrollbar-thumb);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #6366f1;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6366f1; }
     </style>
 </head>
 <body class="antialiased selection:bg-indigo-500 selection:text-white text-slate-800 dark:text-f3f4f6 transition-colors duration-300">
 
-    <!-- 백그라운드 효과 -->
     <div class="bg-mesh"></div>
 
-    <!-- 네비게이션 -->
     <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center backdrop-blur-md bg-white/70 dark:bg-gray-950/50 border-b border-slate-200 dark:border-white/5 transition-colors">
             <div class="font-bold text-xl tracking-wider">
@@ -172,7 +136,6 @@
                     <a href="#portfolio" class="hover:text-indigo-600 dark:hover:text-white transition-colors">Tasks</a>
                     <a href="#about" class="hover:text-indigo-600 dark:hover:text-white transition-colors">About</a>
                 </div>
-                <!-- 테마 토글 버튼 -->
                 <button id="theme-toggle" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors" aria-label="테마 변경">
                     <i class="fa-solid fa-moon dark:hidden"></i>
                     <i class="fa-solid fa-sun hidden dark:block text-yellow-300"></i>
@@ -181,7 +144,6 @@
         </div>
     </nav>
 
-    <!-- 1. 히어로 섹션 -->
     <section id="hero" class="min-h-screen flex flex-col justify-center items-center px-6 pt-20 relative text-center">
         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] z-0 opacity-50 dark:opacity-100"></div>
         
@@ -211,7 +173,6 @@
         </div>
     </section>
 
-    <!-- 2. 포트폴리오 갤러리 섹션 -->
     <section id="portfolio" class="py-24 px-6 relative z-10">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16 reveal">
@@ -220,14 +181,11 @@
                 <p class="mt-6 text-slate-600 dark:text-gray-400 transition-colors">수업을 통해 진행한 10가지 데이터 분석 및 AI 활용 과제</p>
             </div>
 
-            <!-- 그리드 레이아웃 (PC 3~4개, 태블릿 2개, 모바일 1개) -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="portfolio-grid">
-                <!-- JavaScript를 통해 카드가 렌더링 됩니다 -->
             </div>
         </div>
     </section>
 
-    <!-- 3. 작성자 소개 및 푸터 -->
     <section id="about" class="py-20 relative z-10 bg-slate-100/50 dark:bg-gray-900/50 border-t border-slate-200 dark:border-white/5 transition-colors">
         <div class="max-w-4xl mx-auto px-6 text-center reveal">
             <div class="w-28 h-28 mx-auto bg-white rounded-full flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/20 overflow-hidden border-4 border-white dark:border-gray-800">
@@ -263,7 +221,6 @@
     </footer>
 
     <script>
-        // 1. 과제 데이터 배열 (10개)
         const tasks = [
             { id: 1, title: "Task 1", topic: "AI의 이해", desc: "노트북LM(NotebookLM)을 활용하여 AI란 무엇인지 그 정의를 알아보고, AI의 발전 역사와 최신 생성형 AI의 특징에 대해 자료를 수집하고 정리한 결과물입니다.", link: "./02/index.html" },
             { id: 2, title: "Task 2", topic: "데이터 스토리텔링", desc: "공공 데이터를 분석하고 인사이트를 도출하여 시각적으로 설득력있는 리포트를 작성한다.", tag: "Gemini 스토리북 활용", link: "./03/index.html" },
@@ -271,59 +228,36 @@
             { id: 4, title: "Task 4", topic: "중간과제", desc: "예비 사서와 문헌정보학에 대한 소개, 설명입니다.", link: "./06/index.html" },
             { id: 5, title: "Task 5", topic: "데이터 분석(고령운전자 사고)", desc: "데이터를 통해 초고령화 사회의 교통안전 실태와 대안을 분석합니다.", link: "./05/index.html" },
             { id: 6, title: "Task 6", topic: "데이터분석(도로 상태별 사고)", desc: "100만 4,265건의 노면 상태별 교통사고 데이터를 분석합니다.", link: "./07/index.html" },
-            { id: 7, title: "Task 7", topic: "추천 알고리즘 이해", desc: "도서관 대출 데이터를 가정하여 사용자 맞춤형 도서를 추천하는 협업 필터링의 기본 원리를 분석했습니다." },
+            { id: 7, title: "Task 7", topic: "데이터 분석(유튜브 댓글)", desc: "유튜브 댓글 분석을 통한 관광 기획안을 제시합니다.", link: "https://nys9467-ux.github.io/AI2026/08/index.html" },
             { id: 8, title: "Task 8", topic: "AI 챗봇 기획", desc: "특정 도서관 이용자를 위한 맞춤형 안내 챗봇의 페르소나를 설정하고 대화 시나리오를 기획했습니다." },
             { id: 9, title: "Task 9", topic: "데이터 윤리와 저작권", desc: "생성형 AI 활용 시 발생할 수 있는 저작권 문제와 데이터 편향성 등 윤리적 이슈에 대한 에세이입니다." },
             { id: 10, title: "Task 10", topic: "최종 프로젝트", desc: "이전 과제들을 종합하여 현실 세계의 문제를 정의하고, 데이터 분석과 AI를 결합하여 해결책을 제시한 최종 결과물입니다." }
         ];
 
-        // 2. 포트폴리오 카드 렌더링
         const grid = document.getElementById('portfolio-grid');
         tasks.forEach((task, index) => {
-            // 그라데이션 컬러 다양화
-            const colors = [
-                'from-blue-500 to-cyan-500', 'from-indigo-500 to-purple-500', 
-                'from-pink-500 to-rose-500', 'from-emerald-500 to-teal-500',
-                'from-amber-500 to-orange-500'
-            ];
+            const colors = ['from-blue-500 to-cyan-500', 'from-indigo-500 to-purple-500', 'from-pink-500 to-rose-500', 'from-emerald-500 to-teal-500', 'from-amber-500 to-orange-500'];
             const colorClass = colors[index % colors.length];
             const delay = (index % 4) * 100;
-
-            // 특정 링크가 있으면 사용하고, 없으면 "#"으로 설정
             const targetLink = task.link || "#";
-            
-            // 태그가 존재할 경우에만 뱃지 UI 생성
-            const tagBadge = task.tag 
-                ? `<div class="absolute top-4 right-4 bg-indigo-600/90 backdrop-blur-sm text-white text-[11px] font-bold px-3 py-1.5 rounded-full z-30 shadow-lg shadow-indigo-500/30 border border-white/20 tracking-wide">${task.tag}</div>` 
-                : '';
+            const tagBadge = task.tag ? `<div class="absolute top-4 right-4 bg-indigo-600/90 backdrop-blur-sm text-white text-[11px] font-bold px-3 py-1.5 rounded-full z-30 shadow-lg shadow-indigo-500/30 border border-white/20 tracking-wide">${task.tag}</div>` : '';
 
             const cardHTML = `
                 <div class="portfolio-card rounded-2xl p-1 flex flex-col h-full reveal relative" style="transition-delay: ${delay}ms;">
-                    <!-- 카드 우측 상단 뱃지 렌더링 -->
                     ${tagBadge}
-                    
                     <div class="relative z-10 bg-white/60 dark:bg-gray-900 rounded-xl h-full flex flex-col transition-colors backdrop-blur-md">
-                        <!-- 이미지 플레이스홀더 -->
                         <div class="h-48 rounded-t-xl bg-gradient-to-br ${colorClass} opacity-80 flex flex-col items-center justify-center relative overflow-hidden group-hover:opacity-100 transition-opacity">
                             <div class="absolute inset-0 bg-black/10 dark:bg-black/20"></div>
-                            <span class="text-white/50 text-6xl font-black absolute -right-4 -bottom-4 opacity-30 group-hover:scale-110 transition-transform duration-500">
-                                ${task.id.toString().padStart(2, '0')}
-                            </span>
+                            <span class="text-white/50 text-6xl font-black absolute -right-4 -bottom-4 opacity-30 group-hover:scale-110 transition-transform duration-500">${task.id.toString().padStart(2, '0')}</span>
                             <i class="fa-solid fa-database text-4xl text-white mb-2 relative z-10 shadow-sm"></i>
                             <span class="text-white font-medium text-sm tracking-wider relative z-10">${task.topic}</span>
                         </div>
-                        
-                        <!-- 텍스트 영역 -->
                         <div class="p-6 flex-grow flex flex-col justify-between">
                             <div>
                                 <div class="text-xs font-bold text-indigo-600 dark:text-indigo-400 mb-2 uppercase tracking-wider transition-colors">${task.title}</div>
                                 <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 leading-snug transition-colors">${task.topic}</h3>
-                                <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed mb-6 transition-colors">
-                                    ${task.desc}
-                                </p>
+                                <p class="text-slate-600 dark:text-gray-400 text-sm leading-relaxed mb-6 transition-colors">${task.desc}</p>
                             </div>
-                            
-                            <!-- 자세히 보기 버튼 (동적 링크 적용) -->
                             <a href="${targetLink}" class="group flex items-center text-sm font-semibold text-slate-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors mt-auto w-max">
                                 자세히 보기 
                                 <span class="bg-slate-100 dark:bg-white/10 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-500/20 w-6 h-6 rounded-full flex items-center justify-center ml-2 transition-colors">
@@ -337,91 +271,42 @@
             grid.innerHTML += cardHTML;
         });
 
-        // 3. 타이핑 효과 애니메이션
         const textToType = "데이터를 해석하고 AI로 표현하는 10가지 이야기";
         const typingElement = document.getElementById('typing-text');
         typingElement.classList.add('typing-cursor');
         let typeIndex = 0;
-
         function type() {
             if (typeIndex < textToType.length) {
                 typingElement.innerHTML = textToType.substring(0, typeIndex + 1);
                 typeIndex++;
-                setTimeout(type, 80); // 타이핑 속도
+                setTimeout(type, 80);
             }
         }
-        
-        // 초기 로딩 후 타이핑 시작
         setTimeout(type, 1000);
 
-        // 4. 스크롤 페이드인 효과 (Intersection Observer)
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    observer.unobserve(entry.target); // 한 번만 실행
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
-        });
-
-        // 5. 카드 마우스 트래킹 글로우 효과
         document.querySelectorAll('.portfolio-card').forEach(card => {
             card.addEventListener('mousemove', e => {
                 const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
+                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
             });
         });
 
-        // 6. 네비게이션 바 스크롤 효과
-    window.addEventListener('scroll', () => {
-        const nav = document.getElementById('navbar');
-        if (window.scrollY > 50) {
-            nav.classList.add('bg-white/90', 'dark:bg-gray-950/80', 'shadow-sm', 'dark:shadow-lg');
-            nav.classList.remove('bg-white/70', 'dark:bg-gray-950/50');
-        } else {
-            nav.classList.remove('bg-white/90', 'dark:bg-gray-950/80', 'shadow-sm', 'dark:shadow-lg');
-            nav.classList.add('bg-white/70', 'dark:bg-gray-950/50');
-        }
-    });
-
-    // 7. 다크모드 / 라이트모드 토글 로직
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const html = document.documentElement;
-    
-    // 시스템 환경 또는 이전 설정 확인하여 초기화 (기본값 다크모드)
-    if (localStorage.getItem('theme') === 'light') {
-        html.classList.remove('dark');
-    } else if (localStorage.getItem('theme') === 'dark') {
-        html.classList.add('dark');
-    } else {
-        // 로컬 스토리지가 없을 경우 시스템 환경설정 확인
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-            html.classList.remove('dark');
-        }
-    }
-
-    themeToggleBtn.addEventListener('click', () => {
-        html.classList.toggle('dark');
-        if (html.classList.contains('dark')) {
-            localStorage.setItem('theme', 'dark');
-        } else {
-            localStorage.setItem('theme', 'light');
-        }
-    });
-</script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        themeToggleBtn.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+    </script>
 </body>
 </html>
