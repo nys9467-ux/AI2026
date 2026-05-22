@@ -39,6 +39,7 @@
 
         /* 히어로 배경 */
         .hero-bg { background: linear-gradient(135deg, #001f3f 0%, #0055A5 100%); }
+        .idea-bg { background: linear-gradient(135deg, #0f172a 0%, #0d9488 100%); }
 
         /* 그림자 및 효과 */
         .soft-shadow { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); }
@@ -139,7 +140,7 @@
                 </div>
             </div>
 
-            <!-- 성장의 이면: 시민의 목소리 (경고창 스타일) -->
+            <!-- 성장의 이면: 시민의 목소리 -->
             <div class="bg-gradient-to-r from-red-50 to-orange-50 p-8 md:p-10 rounded-3xl border border-red-100 soft-shadow relative overflow-hidden">
                 <div class="absolute -right-10 -bottom-10 text-red-100 opacity-50"><i class="fa-solid fa-bullhorn" style="font-size: 15rem;"></i></div>
                 <div class="relative z-10">
@@ -171,7 +172,7 @@
             <div class="text-center mb-16">
                 <h2 class="text-sm font-bold text-busan-blue uppercase tracking-widest mb-2"><i class="fa-solid fa-code-compare mr-2"></i>02. SOLUTIONS</h2>
                 <h3 class="text-3xl md:text-4xl font-bold text-gray-900">대안의 재구성: 클리셰를 넘어 실천으로</h3>
-                <p class="text-gray-500 mt-4 max-w-2xl mx-auto">수조 원이 드는 거창한 계획 대신, 적은 예산으로 시민 불편을 즉시 해소하는 구체적이고 현실적인 액션 플랜을 제안합니다.</p>
+                <p class="text-gray-500 mt-4 max-w-2xl mx-auto">수조 원이 드는 거창한 계획 대신, 적은 예산으로 시민 불편을 즉시 해소하고 실질적 부가가치를 창출하는 액션 플랜을 제안합니다.</p>
             </div>
 
             <div class="bg-white rounded-3xl soft-shadow overflow-hidden flex flex-col lg:flex-row border border-gray-200">
@@ -276,10 +277,106 @@
             </div>
         </section>
 
-        <!-- Section 3: 글로벌 비전 -->
+        <!-- ★ Section 3: 나의 아이디어 (SPECIAL PROPOSAL) - 도서관 집중 부각 ★ -->
+        <section class="mb-32 reveal idea-bg text-white rounded-[3rem] p-8 md:p-16 soft-shadow relative overflow-hidden">
+            <!-- Background Elements -->
+            <div class="absolute top-0 right-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+            <div class="absolute -top-24 -right-24 text-teal-800 opacity-20 transform rotate-12"><i class="fa-solid fa-book-open-reader" style="font-size: 25rem;"></i></div>
+            
+            <div class="relative z-10">
+                <div class="text-center mb-16">
+                    <span class="inline-block bg-teal-500 text-white font-extrabold px-5 py-2 rounded-full text-sm mb-6 shadow-lg animate-pulse">
+                        <i class="fa-solid fa-lightbulb text-yellow-300 mr-2"></i> 나의 아이디어 (SPECIAL PROPOSAL)
+                    </span>
+                    <h3 class="text-4xl md:text-5xl font-black mb-6 leading-tight">
+                        부산의 새로운 심장,<br>
+                        <span class="text-yellow-400 border-b-4 border-yellow-400 pb-2">글로벌 해양 복합 도서관</span> 건립
+                    </h3>
+                    <p class="text-teal-100 text-lg md:text-xl max-w-3xl mx-auto font-light leading-relaxed">
+                        수익성만을 쫓는 뻔한 마천루나 전망대가 아닙니다.<br>
+                        시민의 일상과 전 세계 관광객의 발길이 머무는, 세계 최고 수준의 공공 건축 랜드마크를 제안합니다.
+                    </p>
+                </div>
+
+                <!-- 사용자가 업로드한 랜드마크 외관 조감도 -->
+                <div class="mb-16 rounded-3xl overflow-hidden shadow-2xl relative group ring-4 ring-white/10 bg-gray-900">
+                    <img src="./library.png" 
+                         onerror="this.src='https://placehold.co/1200x600/0f172a/14b8a6?text=Global+Ocean+Library'" 
+                         alt="부산 글로벌 해양 복합 도서관 외관 조감도" 
+                         class="w-full h-[400px] md:h-[500px] lg:h-[600px] object-cover object-center transform transition duration-1000 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 md:bottom-10 md:left-10 z-20">
+                        <span class="bg-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block shadow-lg border border-teal-400">Exterior View</span>
+                        <h4 class="text-white text-2xl md:text-4xl font-bold drop-shadow-lg mb-2">시민과 바다를 잇는 거대한 물결</h4>
+                        <p class="text-teal-100 text-sm md:text-lg max-w-2xl drop-shadow-md">해안선을 따라 흐르는 유선형 지붕과 누구나 오를 수 있는 공중 테라스 정원이 돋보이는 랜드마크 디자인</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+                    <!-- 해외 사례 박스 -->
+                    <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-3xl">
+                        <h4 class="text-2xl font-bold mb-6 flex items-center text-yellow-300">
+                            <i class="fa-solid fa-earth-europe mr-3"></i> 랜드마크 도서관의 세계적 위상
+                        </h4>
+                        <div class="space-y-6">
+                            <div>
+                                <h5 class="text-lg font-bold text-white mb-2">핀란드 헬싱키 '오디(Oodi)'</h5>
+                                <p class="text-teal-50 text-sm leading-relaxed border-l-2 border-teal-400 pl-3">
+                                    개관 1년 만에 300만 명이 방문한 헬싱키의 상징. 3D 프린터, 녹음실, 영화관을 갖춘 '시민들의 거실'이자 전 세계 관광객의 필수 방문 코스로 자리 잡았습니다.
+                                </p>
+                            </div>
+                            <div>
+                                <h5 class="text-lg font-bold text-white mb-2">미국 시애틀 '중앙 도서관'</h5>
+                                <p class="text-teal-50 text-sm leading-relaxed border-l-2 border-teal-400 pl-3">
+                                    렘 콜하스의 파격적인 외관 디자인으로 유명. 단순한 도서관을 넘어 도시 재생을 이끌고 건축학도와 관광객을 끌어모으는 강력한 흡인력을 증명했습니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 부산 맞춤형 제안 박스 -->
+                    <div>
+                        <h4 class="text-3xl font-bold mb-6 text-white leading-tight">
+                            바다를 품은 지식의 항구,<br>어떤 모습이어야 할까요?
+                        </h4>
+                        <ul class="space-y-8">
+                            <li class="flex items-start">
+                                <div class="w-14 h-14 bg-teal-500 rounded-2xl flex items-center justify-center text-2xl mr-5 shrink-0 shadow-lg">
+                                    <i class="fa-solid fa-water"></i>
+                                </div>
+                                <div>
+                                    <strong class="block text-xl text-yellow-300 mb-2">누워 보는 오션 뷰 라운지</strong>
+                                    <p class="text-teal-100 leading-relaxed text-sm">북항 재개발 구역 등 바다와 맞닿은 곳에 전면 유리로 건축. 책을 읽다가 고개를 들면 부산 앞바다가 펼쳐지는 압도적인 휴식 공간을 제공합니다.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="w-14 h-14 bg-teal-500 rounded-2xl flex items-center justify-center text-2xl mr-5 shrink-0 shadow-lg">
+                                    <i class="fa-solid fa-film"></i>
+                                </div>
+                                <div>
+                                    <strong class="block text-xl text-yellow-300 mb-2">BIFF·지스타 연계 미디어 아카이브</strong>
+                                    <p class="text-teal-100 leading-relaxed text-sm">영화와 게임의 도시답게, 책뿐만 아니라 첨단 미디어 아트와 영화 아카이브를 결합하여 부산만의 고유한 문화 정체성을 전시합니다.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="w-14 h-14 bg-teal-500 rounded-2xl flex items-center justify-center text-2xl mr-5 shrink-0 shadow-lg">
+                                    <i class="fa-solid fa-people-arrows"></i>
+                                </div>
+                                <div>
+                                    <strong class="block text-xl text-yellow-300 mb-2">관광객과 시민의 글로벌 교차로</strong>
+                                    <p class="text-teal-100 leading-relaxed text-sm">외국인을 위한 다국어 여행 정보 라운지와 현지 로컬 크리에이터들의 카페·작업 공간을 병치시켜, 여행의 영감과 일상이 섞이는 공생의 장을 만듭니다.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: 글로벌 비전 -->
         <section class="mb-20 reveal">
             <div class="text-center mb-16">
-                <h2 class="text-sm font-bold text-busan-blue uppercase tracking-widest mb-2"><i class="fa-solid fa-globe mr-2"></i>03. GLOBAL VISION</h2>
+                <h2 class="text-sm font-bold text-busan-blue uppercase tracking-widest mb-2"><i class="fa-solid fa-globe mr-2"></i>04. GLOBAL VISION</h2>
                 <h3 class="text-3xl md:text-4xl font-bold text-gray-900">글로벌 허브 도시를 향한 3대 지향점</h3>
             </div>
             
@@ -319,7 +416,7 @@
                         </div>
                         <h4 class="text-xl font-extrabold mb-4 text-gray-900 group-hover:text-busan-blue transition-colors">고유한 로컬의 세계화</h4>
                         <p class="text-gray-600 text-sm leading-relaxed">
-                            해운대를 넘어 산복도로, 영도, 원도심 등 부산만이 가진 독특한 지형과 삶의 양식을 <strong>세계인이 동경하는 프리미엄 관광 콘텐츠</strong>로 승화시킵니다.
+                            해양 복합 도서관 건립과 산복도로 투어 등 부산만이 가진 지형과 문화 인프라를 <strong>세계인이 동경하는 프리미엄 관광 콘텐츠</strong>로 승화시킵니다.
                         </p>
                     </div>
                 </div>
@@ -338,7 +435,7 @@
                 함께 살고 싶은 <span class="text-yellow-400">자랑스러운 부산</span>
             </h2>
             
-            <!-- 상세 기획서 다운로드 버튼 추가 -->
+            <!-- 상세 기획서 다운로드 버튼 -->
             <a href="./부산 관광 최종 기획안.pdf" download class="inline-flex items-center justify-center bg-yellow-400 text-busan-dark font-extrabold text-lg py-4 px-10 rounded-full hover:bg-yellow-300 transition-all duration-300 shadow-[0_0_20px_rgba(250,204,21,0.3)] transform hover:-translate-y-1 mb-12">
                 상세 기획서 다운로드 <i class="fa-solid fa-download ml-3 text-xl"></i>
             </a>
@@ -364,7 +461,6 @@
                     const counters = entry.target.querySelectorAll('.counter');
                     if (counters.length > 0) {
                         animateCounters(counters);
-                        // 애니메이션 후 클래스 제거하여 중복 실행 방지
                         counters.forEach(c => c.classList.remove('counter')); 
                     }
                     
@@ -375,11 +471,11 @@
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // 2. Number Counter Animation Function
+        // 2. Number Counter Animation
         function animateCounters(counters) {
             counters.forEach(counter => {
                 const target = +counter.getAttribute('data-target');
-                const duration = 2000; // 2 seconds
+                const duration = 2000; 
                 const increment = target / (duration / 16); 
                 let current = 0;
 
@@ -421,7 +517,6 @@
                 targetContent.classList.remove('hidden');
                 targetContent.classList.add('block');
                 
-                // 애니메이션 재실행을 위한 꼼수 (reflow 유도)
                 void targetContent.offsetWidth; 
                 targetContent.classList.add('animate-fadeIn');
             });
