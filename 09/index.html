@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부산 관광 개선 정책 기획서</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Pretendard) -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', 'sans-serif'],
+                    },
+                    colors: {
+                        busan: {
+                            blue: '#0055A5',
+                            light: '#E6F0FA',
+                            accent: '#FF6B6B',
+                            dark: '#001f3f'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Pretendard', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
+        
+        /* 스크롤 애니메이션 */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* 히어로 배경 */
+        .hero-bg { background: linear-gradient(135deg, #001f3f 0%, #0055A5 100%); }
+
+        /* 그림자 및 효과 */
+        .soft-shadow { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        
+        /* 탭 버튼 스타일 */
+        .tab-btn { border-left: 4px solid transparent; transition: all 0.3s ease; }
+        .tab-btn:hover { background-color: #f3f4f6; }
+        .tab-btn.active { background-color: #E6F0FA; color: #0055A5; border-left: 4px solid #0055A5; box-shadow: 2px 0 10px rgba(0,85,165,0.1) inset; }
+        
+        /* 페이드 인 애니메이션 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.4s ease forwards; }
+
+        /* 비전 넘버링 워터마크 */
+        .vision-number {
+            font-size: 8rem;
+            line-height: 1;
+            font-weight: 900;
+            color: rgba(0, 85, 165, 0.05);
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            z-index: 0;
+            transition: all 0.3s ease;
+        }
+        .group:hover .vision-number { color: rgba(0, 85, 165, 0.1); transform: translateY(-10px); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- 홈 버튼 -->
+    <div class="fixed top-6 right-6 z-50">
+        <a href="https://nys9467-ux.github.io/AI2026/" class="flex items-center justify-center w-14 h-14 bg-white text-busan-blue rounded-full shadow-xl hover:bg-busan-blue hover:text-white transition-all duration-300 transform hover:scale-110 border border-gray-100" title="홈으로 가기">
+            <i class="fa-solid fa-house text-xl"></i>
+        </a>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero-bg text-white py-28 px-6 text-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-black/20"></div>
+        
+        <div class="max-w-5xl mx-auto relative z-10 reveal active">
+            <span class="inline-block py-1.5 px-4 rounded-full bg-white/20 backdrop-blur-md text-sm font-bold tracking-widest mb-6 border border-white/30">
+                STRATEGIC PLAN 2026
+            </span>
+            <h1 class="text-4xl md:text-5xl lg:text-7xl font-extrabold mb-6 leading-tight drop-shadow-lg">
+                지속 가능한 글로벌 관광 도시<br><span class="text-blue-300">부산</span>을 위한 개선 방안
+            </h1>
+            <p class="text-lg md:text-xl text-blue-100 opacity-95 max-w-2xl mx-auto font-light leading-relaxed">
+                기존 정책의 한계를 극복하고 시민과 상생하는 실천적 로드맵<br>
+                <span class="text-sm opacity-70 mt-2 inline-block">(작성일: 2026.05.22)</span>
+            </p>
+            
+            <a href="#overview" class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white text-busan-blue mt-12 hover:bg-blue-50 transition-colors animate-bounce shadow-lg">
+                <i class="fa-solid fa-arrow-down"></i>
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-20">
+        
+        <!-- Section 1: 통계 현주소 -->
+        <section id="overview" class="mb-32 reveal">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-busan-blue uppercase tracking-widest mb-2"><i class="fa-solid fa-chart-pie mr-2"></i>01. STATUS</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900">수치로 보는 부산 관광의 현주소</h3>
+            </div>
+            
+            <!-- Animated Counters -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white p-10 rounded-3xl soft-shadow border border-gray-100 text-center transform transition duration-300 hover:-translate-y-2">
+                    <div class="w-16 h-16 mx-auto bg-blue-50 text-busan-blue rounded-full flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="text-5xl font-black text-gray-900 mb-2"><span class="counter" data-target="364">0</span><span class="text-2xl font-bold ml-1">만 명</span></div>
+                    <p class="text-gray-500 font-medium">지난해 외국인 관광객 방문</p>
+                </div>
+                <div class="bg-white p-10 rounded-3xl soft-shadow border border-gray-100 text-center transform transition duration-300 hover:-translate-y-2 relative">
+                    <div class="absolute -top-3 -right-3 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full shadow-sm">전국 2위</div>
+                    <div class="w-16 h-16 mx-auto bg-blue-50 text-busan-blue rounded-full flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-won-sign"></i>
+                    </div>
+                    <div class="text-5xl font-black text-gray-900 mb-2"><span class="counter" data-target="1">0</span><span class="text-2xl font-bold ml-1">조 원</span></div>
+                    <p class="text-gray-500 font-medium">지난해 외국인 지출액 돌파</p>
+                </div>
+                <div class="bg-white p-10 rounded-3xl soft-shadow border border-gray-100 text-center transform transition duration-300 hover:-translate-y-2 relative">
+                    <div class="absolute -top-3 -right-3 bg-busan-accent text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">2026 1분기 기준</div>
+                    <div class="w-16 h-16 mx-auto bg-blue-50 text-busan-blue rounded-full flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-plane-arrival"></i>
+                    </div>
+                    <div class="text-5xl font-black text-gray-900 mb-2"><span class="counter" data-target="100">0</span><span class="text-2xl font-bold ml-1">만 명</span></div>
+                    <p class="text-gray-500 font-medium">단기간 방문자 수 돌파</p>
+                </div>
+            </div>
+
+            <!-- 성장의 이면: 시민의 목소리 (경고창 스타일) -->
+            <div class="bg-gradient-to-r from-red-50 to-orange-50 p-8 md:p-10 rounded-3xl border border-red-100 soft-shadow relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 text-red-100 opacity-50"><i class="fa-solid fa-bullhorn" style="font-size: 15rem;"></i></div>
+                <div class="relative z-10">
+                    <h4 class="text-xl font-bold mb-6 flex items-center text-red-800">
+                        <i class="fa-solid fa-circle-exclamation mr-3 text-2xl"></i> 폭발적 성장의 이면: 현지 시민의 목소리
+                    </h4>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-red-50 shadow-sm relative">
+                            <i class="fa-solid fa-quote-left text-red-200 text-3xl absolute top-4 left-4"></i>
+                            <p class="text-gray-700 leading-relaxed relative z-10 pt-6 font-medium">
+                                "부산 사람인데 관광은 좋지만 살기는 점점 힘들어집니다. 밀려드는 관광객으로 쓰레기와 소음이 감당이 안 돼요."
+                            </p>
+                            <p class="text-right text-xs text-red-500 mt-3 font-bold">- 유튜브 댓글 발췌</p>
+                        </div>
+                        <div class="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-red-50 shadow-sm relative">
+                            <i class="fa-solid fa-quote-left text-red-200 text-3xl absolute top-4 left-4"></i>
+                            <p class="text-gray-700 leading-relaxed relative z-10 pt-6 font-medium">
+                                "지표는 성장한다는데 지역 청년 일자리는 여전히 부족하고, 관광 상권 위주로 아파트만 지어지는 느낌입니다."
+                            </p>
+                            <p class="text-right text-xs text-red-500 mt-3 font-bold">- 유튜브 댓글 발췌</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: 기존 제안 vs 현실적 대안 -->
+        <section class="mb-32 reveal">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-busan-blue uppercase tracking-widest mb-2"><i class="fa-solid fa-code-compare mr-2"></i>02. SOLUTIONS</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900">대안의 재구성: 클리셰를 넘어 실천으로</h3>
+                <p class="text-gray-500 mt-4 max-w-2xl mx-auto">수조 원이 드는 거창한 계획 대신, 적은 예산으로 시민 불편을 즉시 해소하는 구체적이고 현실적인 액션 플랜을 제안합니다.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl soft-shadow overflow-hidden flex flex-col lg:flex-row border border-gray-200">
+                <!-- 탭 메뉴 -->
+                <div class="lg:w-1/3 bg-gray-50 border-r border-gray-200 p-4 space-y-2 flex flex-col justify-center">
+                    <button class="tab-btn active w-full text-left px-6 py-5 rounded-xl font-bold text-gray-600" data-target="v1">
+                        <i class="fa-solid fa-leaf w-6 text-center mr-2"></i> 1. 스마트 환경 관리
+                    </button>
+                    <button class="tab-btn w-full text-left px-6 py-5 rounded-xl font-bold text-gray-600" data-target="v2">
+                        <i class="fa-solid fa-mountain-city w-6 text-center mr-2"></i> 2. 산복도로 자원화
+                    </button>
+                    <button class="tab-btn w-full text-left px-6 py-5 rounded-xl font-bold text-gray-600" data-target="v3">
+                        <i class="fa-solid fa-mobile-screen w-6 text-center mr-2"></i> 3. 바가지 근절 시스템
+                    </button>
+                    <button class="tab-btn w-full text-left px-6 py-5 rounded-xl font-bold text-gray-600" data-target="v4">
+                        <i class="fa-solid fa-plane w-6 text-center mr-2"></i> 4. 장거리 인프라 우회
+                    </button>
+                </div>
+
+                <!-- 탭 콘텐츠 -->
+                <div class="lg:w-2/3 p-8 md:p-12 bg-white">
+                    <!-- Tab 1 -->
+                    <div id="v1" class="tab-content block animate-fadeIn">
+                        <h4 class="text-2xl font-extrabold mb-8 pb-4 border-b border-gray-100 text-gray-900">스마트 오버투어리즘 관리</h4>
+                        
+                        <div class="mb-6 opacity-60 bg-gray-100 p-5 rounded-2xl border border-gray-200">
+                            <span class="inline-block bg-gray-300 text-gray-700 text-xs font-bold px-2 py-1 rounded mb-2"><i class="fa-solid fa-xmark mr-1"></i> 기존 제안 (Cliché)</span>
+                            <p class="text-gray-600 italic">"단속 인력을 늘리고, 곳곳에 환경 정화 캠페인 현수막을 설치한다."</p>
+                        </div>
+                        
+                        <div class="bg-blue-50/50 p-8 rounded-2xl border-l-4 border-busan-blue shadow-sm relative overflow-hidden">
+                            <div class="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-blue-100 to-transparent opacity-50"></div>
+                            <span class="inline-block bg-busan-blue text-white text-xs font-bold px-3 py-1 rounded shadow-sm mb-3 relative z-10"><i class="fa-solid fa-lightbulb mr-1 text-yellow-300"></i> 현실적 액션 플랜</span>
+                            <h5 class="text-xl font-bold text-busan-dark mt-1 mb-3 relative z-10">굿즈형 쓰레기 봉투 & QR 시민 신고제</h5>
+                            <p class="text-gray-700 leading-relaxed relative z-10">
+                                단속 인력 확충은 한계가 있습니다. '비짓부산패스' 구매 시 디자인된 굿즈형 종량제 봉투를 기본 제공하여 자발적 수거를 유도합니다.<br><br>
+                                또한, 낚시터나 해안가 무단 투기를 시민이 촬영해 QR 코드로 전송하면 <strong>실시간으로 포상금(지역화폐)을 지급하는 참여형 정화 시스템</strong>을 구축합니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2 -->
+                    <div id="v2" class="tab-content hidden animate-fadeIn">
+                        <h4 class="text-2xl font-extrabold mb-8 pb-4 border-b border-gray-100 text-gray-900">산복도로 로컬 자원화</h4>
+                        
+                        <div class="mb-6 opacity-60 bg-gray-100 p-5 rounded-2xl border border-gray-200">
+                            <span class="inline-block bg-gray-300 text-gray-700 text-xs font-bold px-2 py-1 rounded mb-2"><i class="fa-solid fa-xmark mr-1"></i> 기존 제안 (Cliché)</span>
+                            <p class="text-gray-600 italic">"거액의 예산을 들여 대규모 산악 케이블카와 관광 트램을 설치해 접근성을 높인다."</p>
+                        </div>
+                        
+                        <div class="bg-orange-50/50 p-8 rounded-2xl border-l-4 border-orange-500 shadow-sm relative overflow-hidden">
+                            <div class="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-orange-100 to-transparent opacity-50"></div>
+                            <span class="inline-block bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded shadow-sm mb-3 relative z-10"><i class="fa-solid fa-lightbulb mr-1 text-yellow-300"></i> 현실적 액션 플랜</span>
+                            <h5 class="text-xl font-bold text-gray-900 mt-1 mb-3 relative z-10">친환경 마이크로 버스 & 빈집 스테이</h5>
+                            <p class="text-gray-700 leading-relaxed relative z-10">
+                                인프라 구축에 10년을 기다릴 수 없습니다. <strong>기존 마을버스 노선을 활용해 시야가 탁 트인 소형 전기 투어 버스를 즉각 투입</strong>합니다.<br><br>
+                                아울러 원도심의 고질적인 문제인 빈집들을 지자체가 매입해 청년 창업가들에게 임대하는 'View 스테이' 사업으로 서부산권 숙박 수요를 창출합니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3 -->
+                    <div id="v3" class="tab-content hidden animate-fadeIn">
+                        <h4 class="text-2xl font-extrabold mb-8 pb-4 border-b border-gray-100 text-gray-900">바가지 근절 및 신뢰 회복</h4>
+                        
+                        <div class="mb-6 opacity-60 bg-gray-100 p-5 rounded-2xl border border-gray-200">
+                            <span class="inline-block bg-gray-300 text-gray-700 text-xs font-bold px-2 py-1 rounded mb-2"><i class="fa-solid fa-xmark mr-1"></i> 기존 제안 (Cliché)</span>
+                            <p class="text-gray-600 italic">"전통시장 상인 교육을 강화하고 '착한 가격 업소' 스티커를 부착한다."</p>
+                        </div>
+                        
+                        <div class="bg-purple-50/50 p-8 rounded-2xl border-l-4 border-purple-600 shadow-sm relative overflow-hidden">
+                            <div class="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-purple-100 to-transparent opacity-50"></div>
+                            <span class="inline-block bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded shadow-sm mb-3 relative z-10"><i class="fa-solid fa-lightbulb mr-1 text-yellow-300"></i> 현실적 액션 플랜</span>
+                            <h5 class="text-xl font-bold text-gray-900 mt-1 mb-3 relative z-10">다국어 스마트 POS & 퇴출제</h5>
+                            <p class="text-gray-700 leading-relaxed relative z-10">
+                                추상적인 캠페인 대신 시스템으로 투명성을 강제합니다. 가격이 고정되어 조작할 수 없는 <strong>다국어 태블릿 주문/결제 POS 기기를 상권에 무상 보급</strong>합니다.<br><br>
+                                부당 요금이 한 번이라도 적발(신고 접수)된 업소는 부산시 공식 관광 맵, 비짓부산패스 등 모든 공공 플랫폼에서 영구 제외하는 원스트라이크 아웃제를 도입합니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Tab 4 -->
+                    <div id="v4" class="tab-content hidden animate-fadeIn">
+                        <h4 class="text-2xl font-extrabold mb-8 pb-4 border-b border-gray-100 text-gray-900">인프라 한계 우회 전략</h4>
+                        
+                        <div class="mb-6 opacity-60 bg-gray-100 p-5 rounded-2xl border border-gray-200">
+                            <span class="inline-block bg-gray-300 text-gray-700 text-xs font-bold px-2 py-1 rounded mb-2"><i class="fa-solid fa-xmark mr-1"></i> 기존 제안 (Cliché)</span>
+                            <p class="text-gray-600 italic">"가덕도 신공항을 조기 완공하고 미주/유럽권 직항 노선을 적극 유치한다."</p>
+                        </div>
+                        
+                        <div class="bg-green-50/50 p-8 rounded-2xl border-l-4 border-green-600 shadow-sm relative overflow-hidden">
+                            <div class="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-green-100 to-transparent opacity-50"></div>
+                            <span class="inline-block bg-green-600 text-white text-xs font-bold px-3 py-1 rounded shadow-sm mb-3 relative z-10"><i class="fa-solid fa-lightbulb mr-1 text-yellow-300"></i> 현실적 액션 플랜</span>
+                            <h5 class="text-xl font-bold text-gray-900 mt-1 mb-3 relative z-10">인천공항-부산역 KTX 수하물 다이렉트 탁송</h5>
+                            <p class="text-gray-700 leading-relaxed relative z-10">
+                                신공항 완공과 노선 신설 전까지 발생할 접근성 한계를 서비스로 우회합니다. 장거리 여행객이 <strong>인천공항에 입국하자마자 무거운 수하물을 부산의 호텔로 바로 탁송(코레일 연계)</strong>합니다.<br><br>
+                                짐 없이 가벼운 몸으로 KTX 환승이나 기착지 투어를 즐기게 하여 서울 중심의 관광을 부산으로 쉽게 유도합니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: 글로벌 비전 -->
+        <section class="mb-20 reveal">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-busan-blue uppercase tracking-widest mb-2"><i class="fa-solid fa-globe mr-2"></i>03. GLOBAL VISION</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900">글로벌 허브 도시를 향한 3대 지향점</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Vision 1 -->
+                <div class="group bg-white p-10 rounded-3xl soft-shadow border border-gray-100 relative overflow-hidden z-10">
+                    <div class="vision-number">01</div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 bg-blue-100 text-busan-blue rounded-xl flex items-center justify-center text-xl mb-6 shadow-sm">
+                            <i class="fa-solid fa-earth-americas"></i>
+                        </div>
+                        <h4 class="text-xl font-extrabold mb-4 text-gray-900 group-hover:text-busan-blue transition-colors">다양한 국적의 포용성</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            아시아권 편중을 넘어 전 세계인이 언어와 결제의 장벽 없이 자유롭게 이동할 수 있는 <strong>'글로벌 디지털 관광 인프라'</strong>를 완성합니다.
+                        </p>
+                    </div>
+                </div>
+                <!-- Vision 2 -->
+                <div class="group bg-white p-10 rounded-3xl soft-shadow border border-gray-100 relative overflow-hidden z-10 transform md:-translate-y-6">
+                    <div class="vision-number">02</div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 bg-blue-100 text-busan-blue rounded-xl flex items-center justify-center text-xl mb-6 shadow-sm">
+                            <i class="fa-solid fa-handshake-angle"></i>
+                        </div>
+                        <h4 class="text-xl font-extrabold mb-4 text-gray-900 group-hover:text-busan-blue transition-colors">시민과 공존하는 지속성</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            관광 수익이 거대 자본이 아닌 지역 소상공인과 청년 창업가에게 순환되어, 현지 시민이 관광객을 환영하는 진정한 <strong>'공생 도시'</strong>를 지향합니다.
+                        </p>
+                    </div>
+                </div>
+                <!-- Vision 3 -->
+                <div class="group bg-white p-10 rounded-3xl soft-shadow border border-gray-100 relative overflow-hidden z-10">
+                    <div class="vision-number">03</div>
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 bg-blue-100 text-busan-blue rounded-xl flex items-center justify-center text-xl mb-6 shadow-sm">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <h4 class="text-xl font-extrabold mb-4 text-gray-900 group-hover:text-busan-blue transition-colors">고유한 로컬의 세계화</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            해운대를 넘어 산복도로, 영도, 원도심 등 부산만이 가진 독특한 지형과 삶의 양식을 <strong>세계인이 동경하는 프리미엄 관광 콘텐츠</strong>로 승화시킵니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-busan-dark text-white py-20 px-6 text-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div class="relative z-10 max-w-3xl mx-auto">
+            <p class="text-blue-300 text-sm font-bold tracking-widest mb-6">BUSAN METROPOLITAN CITY TOURISM POLICY</p>
+            <h2 class="text-3xl md:text-4xl font-extrabold leading-tight mb-10">
+                다시 찾고 싶은 세계적 도시,<br>
+                함께 살고 싶은 <span class="text-yellow-400">자랑스러운 부산</span>
+            </h2>
+            
+            <!-- 상세 기획서 다운로드 버튼 추가 -->
+            <a href="./부산 관광 최종 기획안.pdf" download class="inline-flex items-center justify-center bg-yellow-400 text-busan-dark font-extrabold text-lg py-4 px-10 rounded-full hover:bg-yellow-300 transition-all duration-300 shadow-[0_0_20px_rgba(250,204,21,0.3)] transform hover:-translate-y-1 mb-12">
+                상세 기획서 다운로드 <i class="fa-solid fa-download ml-3 text-xl"></i>
+            </a>
+
+            <div class="w-24 h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent mx-auto"></div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Scroll Reveal Animation
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    // 카운터 애니메이션 트리거
+                    const counters = entry.target.querySelectorAll('.counter');
+                    if (counters.length > 0) {
+                        animateCounters(counters);
+                        // 애니메이션 후 클래스 제거하여 중복 실행 방지
+                        counters.forEach(c => c.classList.remove('counter')); 
+                    }
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // 2. Number Counter Animation Function
+        function animateCounters(counters) {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const duration = 2000; // 2 seconds
+                const increment = target / (duration / 16); 
+                let current = 0;
+
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.innerText = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCounter();
+            });
+        }
+
+        // 3. Tab Functionality
+        const btns = document.querySelectorAll('.tab-btn');
+        const contents = document.querySelectorAll('.tab-content');
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.getAttribute('data-target');
+                
+                // 리셋
+                btns.forEach(b => {
+                    b.classList.remove('active');
+                    b.classList.replace('bg-blue-50', 'bg-transparent');
+                });
+                contents.forEach(c => {
+                    c.classList.add('hidden');
+                    c.classList.remove('block', 'animate-fadeIn');
+                });
+                
+                // 활성화
+                btn.classList.add('active');
+                
+                const targetContent = document.getElementById(targetId);
+                targetContent.classList.remove('hidden');
+                targetContent.classList.add('block');
+                
+                // 애니메이션 재실행을 위한 꼼수 (reflow 유도)
+                void targetContent.offsetWidth; 
+                targetContent.classList.add('animate-fadeIn');
+            });
+        });
+    </script>
+</body>
+</html>
